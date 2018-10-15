@@ -1,9 +1,75 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<app-login></app-login>
+<app-login *ngIf="!isLoggedInAdmin()"></app-login>
 
+<div class="main-page" *ngIf="isLoggedInAdmin()">
+
+  <div class="header-line row">
+    <div class="col-10">
+      <button class="btn btn-primary logoutButton" (click)="logout()">Logout</button>
+    </div>
+    <div class="col-2">
+      <div class="balet-woman"></div>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="tab-pane col-2">
+      <button class="menu-item btn btn-light-blue col-12" (click)="showTimeTable()">Órarend</button>
+      <button class="menu-item btn btn-light-blue col-12" (click)="showPersonalClasses()">Különórák</button>
+      <div class="col-12" style="min-height: 500px"></div>
+    </div>
+
+    <div class="tab-content col-10">
+      <div class="time-table" *ngIf="isShowTimeTable">
+        <b>Heti Orarend</b>
+        <div *ngIf="calendarOptionsTimeTable">
+          <ng-fullcalendar id="time-table-calendar" #ucCalendarTimeTable [options]="calendarOptionsTimeTable" [(eventsModel)]="eventsTimeTable"></ng-fullcalendar>
+        </div>
+      </div>
+      <div class="personal-classes" *ngIf="isShowPersonalClasses">
+        <b>Kulonora beosztas</b>
+        <div *ngIf="calendarOptionsTimeTable"></div>
+        <ng-fullcalendar id="time-personal-calendar" #ucCalendarPersonal [options]="calendarOptionsPersonal" [(eventsModel)]="eventsPersonal"></ng-fullcalendar>
+        <button class="btn btn-primary logoutButton" (click)="addEvent(content)">Add event</button>
+        <button class="btn btn-primary logoutButton" (click)="removeEvent()">Remove event</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body row">
+      <div class="col-7 time-picker">
+        <ngb-timepicker [minuteStep]="15" [(ngModel)]="time"></ngb-timepicker>
+      </div>
+      <div class="col-3 day-picker">
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="day">
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="1"> Hétfő
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="2"> Kedd
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="3"> Szerda
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="4"> Csütörtök
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="5"> Péntek
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close(dp)">Save</button>
+    </div>
+  </ng-template>
+</div>
