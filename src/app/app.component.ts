@@ -42,8 +42,6 @@ export class AppComponent implements OnInit {
       dates.push(currDate.clone().toDate());
     }
 
-    console.log(dates);
-
     return dates.map((e) => e.getFullYear() + '/' + (e.getMonth() + 1));
   }
 

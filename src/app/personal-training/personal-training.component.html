@@ -2,7 +2,8 @@
   <b>Kulonora beosztas</b>
   <div *ngIf="calendarOptionsPersonal"></div>
   <ng-fullcalendar id="time-personal-calendar" #ucCalendarPersonal [options]="calendarOptionsPersonal"
-                   [(eventsModel)]="eventsPersonal"></ng-fullcalendar>
+                   [(eventsModel)]="eventsPersonal"
+                   (eventClick)="eventClick($event.detail)"></ng-fullcalendar>
   <button class="btn btn-primary logoutButton" (click)="addEvent(content)">Különóra Hozzáadása</button>
   <button class="btn btn-primary logoutButton" (click)="removeEvent()">Különóra Lemondása</button>
 </div>

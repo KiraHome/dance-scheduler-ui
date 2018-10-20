@@ -9,16 +9,8 @@ import {LoginComponent} from './login/login.component';
 import {FullCalendarModule} from 'ng-fullcalendar';
 import {ModalComponent} from './modal/modal.component';
 import {HttpClientModule} from '@angular/common/http';
-import { ShareButtonModule } from '@ngx-share/button';
-
-
-import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons/faFacebookSquare';
-import { PersonalTrainingComponent } from './personal-training/personal-training.component';
-const shareProp = {
-  facebook: {
-    icon: faFacebookSquare
-  }
-};
+import {ShareButtonModule} from '@ngx-share/button';
+import {PersonalTrainingComponent} from './personal-training/personal-training.component';
 
 @NgModule({
   declarations: [
@@ -29,12 +21,12 @@ const shareProp = {
   ],
   imports: [
     BrowserModule,
-    FullCalendarModule,
     NgbModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ShareButtonModule.forRoot({ prop: shareProp })
+    FullCalendarModule,
+    ShareButtonModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

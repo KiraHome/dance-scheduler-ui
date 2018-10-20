@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    console.log('Login name: ' + this.loginName + ', pass: ' + this.loginPass);
     if (this.loginName === 'tanc' && this.loginPass === 'tanc') {
       window.localStorage.setItem('credentials', 'ADMIN');
     }
