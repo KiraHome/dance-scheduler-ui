@@ -1,0 +1,34 @@
+<div class="payment-content" *ngIf="isShow">
+  <ngb-tabset>
+    <ngb-tab title="Tagdíjak">
+      <ng-template ngbTabContent>
+        <table class="table table-striped">
+          <thead class="thead-dark">
+          <tr>
+            <th>#</th>
+            <th>Név</th>
+            <th *ngFor="let date of dates">
+              {{date}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let payed of paymentTable; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td *ngFor="let d of payed">
+              <img *ngIf="d === true" src="../../assets/checkmark.svg" class="payment-status">
+              <img *ngIf="!d" src="../../assets/black_x.svg" class="payment-status">
+              <i *ngIf="d !== true && d !== false">{{d}}</i>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Különóra díjak">
+      <ng-template ngbTabContent>
+        <b>Különóra tartozások</b>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

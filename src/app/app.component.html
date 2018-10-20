@@ -11,7 +11,6 @@
     </div>
   </div>
 
-  <!--TABS-->
   <div class="row content">
     <div class="tab-pane col-2">
       <button class="menu-item btn btn-light-blue col-12" (click)="showTimeTable()">Órarend</button>
@@ -20,34 +19,10 @@
       <div class="col-12" style="min-height: 500px"></div>
     </div>
 
-    <!--CONTENT-->
     <div class="tab-content col-10">
       <app-time-table [isShow]="isShowTimeTable"></app-time-table>
       <app-personal-training [isShow]="isShowPersonalClasses"></app-personal-training>
-
-      <div class="payment-content" *ngIf="isShowPayments">
-        <table class="table table-striped">
-          <thead class="thead-dark">
-          <tr>
-            <th>#</th>
-            <th>Név</th>
-            <th *ngFor=" let date of dates">
-              {{date}}
-            </th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let payed of paymentTable; index as i">
-            <th scope="row">{{i + 1}}</th>
-            <td *ngFor="let d of payed">
-              <img *ngIf="d === true" src="../assets/checkmark.svg" class="payment-status">
-              <img *ngIf="!d" src="../assets/black_x.svg" class="payment-status">
-              <i *ngIf="d !== true && d !== false">{{d}}</i>
-            </td>
-          </tr>
-          </tbody>
-        </table>
-      </div>
+      <app-payments [isShow]="isShowPayments"></app-payments>
     </div>
   </div>
 </div>

@@ -12,6 +12,7 @@ import {HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
 import {PersonalTrainingComponent} from './personal-training/personal-training.component';
 import { TimeTableComponent } from './time-table/time-table.component';
+import { PaymentsComponent } from './payments/payments.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TimeTableComponent } from './time-table/time-table.component';
     LoginComponent,
     ModalComponent,
     PersonalTrainingComponent,
-    TimeTableComponent
+    TimeTableComponent,
+    PaymentsComponent
   ],
   imports: [
     BrowserModule,

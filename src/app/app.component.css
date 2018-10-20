@@ -29,12 +29,3 @@
 .menu-item:hover {
   background-color: aquamarine;
 }
-
-.payment-content {
-  width: 100%;
-}
-
-.payment-status {
-  width: 20px;
-  height: 20px;
-}
