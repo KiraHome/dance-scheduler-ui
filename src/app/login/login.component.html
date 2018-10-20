@@ -1,12 +1,29 @@
+<!--<div class="row">-->
+<!--<div class="col-3 buttonGroup">-->
+<!--<button class="btn btn-primary buttonGroup" (click)="login()">Login</button>-->
+<!--<button class="btn btn-primary buttonGroup" (click)="register()">Register</button>-->
+<!--</div>-->
+<!--<div class="col-3">-->
+<!--<div class="row">Name: <input type="text" class="loginForm form-control" id="loginName" [(ngModel)]="loginName"></div>-->
+<!--</div>-->
+<!--<div class="col-3">-->
+<!--Password: <input type="password" class="loginForm form-control" id="loginPass" [(ngModel)]="loginPass">-->
+<!--</div>-->
+<!--</div>-->
+
 <div class="row">
-  <div class="col-3 buttonGroup">
-    <button class="btn btn-primary buttonGroup" (click)="login()">Login</button>
-    <button class="btn btn-primary buttonGroup" (click)="register()">Register</button>
+  <div class="col-3"></div>
+  <div class="col-6">
+    <img src="../../assets/loginlogo.png" class="loginPicture">
+    <div class="row"><b>Név: </b><input type="text" class="loginForm form-control" id="loginName" [(ngModel)]="loginName">
+    </div>
+    <div class="row"><b>Jelszó: </b><input type="password" class="loginForm form-control" id="loginPass"
+      [(ngModel)]="loginPass">
+    </div>
+    <div class="row">
+      <button class="btn btn-primary buttonGroup" (click)="login()">Bejelentkezés</button>
+      <button class="btn btn-primary buttonGroup registerButton" (click)="register()">Regisztráció</button>
+    </div>
   </div>
-  <div class="col-3">
-  <div class="row">Name: <input type="text" class="loginForm form-control" id="loginName" [(ngModel)]="loginName"></div>
-  </div>
-  <div class="col-3">
-    Password: <input type="password" class="loginForm form-control" id="loginPass" [(ngModel)]="loginPass">
-  </div>
+  <div class="col-3"></div>
 </div>

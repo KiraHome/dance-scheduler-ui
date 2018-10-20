@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-login',
@@ -10,9 +10,11 @@ export class LoginComponent implements OnInit {
   loginName: string;
   loginPass: string;
 
-  constructor() { }
+  constructor() {
+  }
 
-  ngOnInit() { }
+  ngOnInit() {
+  }
 
   login(): void {
     console.log('Login name: ' + this.loginName + ', pass: ' + this.loginPass);
@@ -21,5 +23,6 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  register(): void { }
+  register(): void {
+  }
 }

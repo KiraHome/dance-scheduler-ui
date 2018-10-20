@@ -11,31 +11,62 @@
     </div>
   </div>
 
+  <!--TABS-->
   <div class="row content">
     <div class="tab-pane col-2">
       <button class="menu-item btn btn-light-blue col-12" (click)="showTimeTable()">Órarend</button>
       <button class="menu-item btn btn-light-blue col-12" (click)="showPersonalClasses()">Különórák</button>
+      <button class="menu-item btn btn-light-blue col-12" (click)="showPayments()">Befizetések</button>
       <div class="col-12" style="min-height: 500px"></div>
     </div>
 
+    <!--CONTENT-->
     <div class="tab-content col-10">
       <div class="time-table" *ngIf="isShowTimeTable">
         <b>Heti Orarend</b>
         <div *ngIf="calendarOptionsTimeTable">
-          <ng-fullcalendar id="time-table-calendar" #ucCalendarTimeTable [options]="calendarOptionsTimeTable" [(eventsModel)]="eventsTimeTable"></ng-fullcalendar>
+          <ng-fullcalendar id="time-table-calendar" #ucCalendarTimeTable [options]="calendarOptionsTimeTable"
+                           [(eventsModel)]="eventsTimeTable"></ng-fullcalendar>
         </div>
       </div>
+
       <div class="personal-classes" *ngIf="isShowPersonalClasses">
         <b>Kulonora beosztas</b>
         <div *ngIf="calendarOptionsTimeTable"></div>
-        <ng-fullcalendar id="time-personal-calendar" #ucCalendarPersonal [options]="calendarOptionsPersonal" [(eventsModel)]="eventsPersonal"></ng-fullcalendar>
-        <button class="btn btn-primary logoutButton" (click)="addEvent(content)">Add event</button>
-        <button class="btn btn-primary logoutButton" (click)="removeEvent()">Remove event</button>
+        <ng-fullcalendar id="time-personal-calendar" #ucCalendarPersonal [options]="calendarOptionsPersonal"
+                         [(eventsModel)]="eventsPersonal"></ng-fullcalendar>
+        <button class="btn btn-primary logoutButton" (click)="addEvent(content)">Különóra Hozzáadása</button>
+        <button class="btn btn-primary logoutButton" (click)="removeEvent()">Különóra Lemondása</button>
+      </div>
+
+      <div class="payment-content" *ngIf="isShowPayments">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+          <tr>
+            <th>#</th>
+            <th>Név</th>
+            <th *ngFor=" let date of dates">
+              {{date}}
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let payed of paymentTable; index as i">
+            <th scope="row">{{i + 1}}</th>
+            <td *ngFor="let d of payed">
+              <img *ngIf="d === true" src="../assets/checkmark.svg" class="payment-status">
+              <img *ngIf="!d" src="../assets/black_x.svg" class="payment-status">
+              <i *ngIf="d !== true && d !== false">{{d}}</i>
+            </td>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
 </div>
 
+<!--MODAL template-->
 <div>
   <ng-template #content let-modal>
     <div class="modal-header">

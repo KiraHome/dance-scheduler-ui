@@ -1,9 +1,19 @@
 .loginForm {
     margin: 5px 5px 5px 5px;
-    border-color: aquamarine;
+    border-color: #007bff;
     border-radius: 5px;
 }
 
 .buttonGroup {
     margin: 5px 5px 5px 5px;
+    width: 25%;
+}
+
+.registerButton {
+  background-color: #425d79;
+}
+
+.loginPicture {
+  width: 60%;
+  margin-bottom: 20px;
 }
