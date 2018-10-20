@@ -11,13 +11,15 @@ import {ModalComponent} from './modal/modal.component';
 import {HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
 import {PersonalTrainingComponent} from './personal-training/personal-training.component';
+import { TimeTableComponent } from './time-table/time-table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     ModalComponent,
-    PersonalTrainingComponent
+    PersonalTrainingComponent,
+    TimeTableComponent
   ],
   imports: [
     BrowserModule,

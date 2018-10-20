@@ -1,0 +1,7 @@
+<div class="time-table" *ngIf="isShow">
+  <b>Heti Orarend</b>
+  <div *ngIf="calendarOptionsTimeTable">
+    <ng-fullcalendar id="time-table-calendar" #ucCalendarTimeTable [options]="calendarOptionsTimeTable"
+                     [(eventsModel)]="eventsTimeTable"></ng-fullcalendar>
+  </div>
+</div>

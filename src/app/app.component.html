@@ -22,14 +22,7 @@
 
     <!--CONTENT-->
     <div class="tab-content col-10">
-      <div class="time-table" *ngIf="isShowTimeTable">
-        <b>Heti Orarend</b>
-        <div *ngIf="calendarOptionsTimeTable">
-          <ng-fullcalendar id="time-table-calendar" #ucCalendarTimeTable [options]="calendarOptionsTimeTable"
-                           [(eventsModel)]="eventsTimeTable"></ng-fullcalendar>
-        </div>
-      </div>
-
+      <app-time-table [isShow]="isShowTimeTable"></app-time-table>
       <app-personal-training [isShow]="isShowPersonalClasses"></app-personal-training>
 
       <div class="payment-content" *ngIf="isShowPayments">
