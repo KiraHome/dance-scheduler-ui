@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
@@ -13,6 +13,7 @@ import { ShareButtonModule } from '@ngx-share/button';
 
 
 import { faFacebookSquare } from '@fortawesome/free-brands-svg-icons/faFacebookSquare';
+import { PersonalTrainingComponent } from './personal-training/personal-training.component';
 const shareProp = {
   facebook: {
     icon: faFacebookSquare
@@ -23,13 +24,15 @@ const shareProp = {
   declarations: [
     AppComponent,
     LoginComponent,
-    ModalComponent
+    ModalComponent,
+    PersonalTrainingComponent
   ],
   imports: [
     BrowserModule,
     FullCalendarModule,
     NgbModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ShareButtonModule.forRoot({ prop: shareProp })
   ],

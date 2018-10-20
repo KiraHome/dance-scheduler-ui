@@ -30,14 +30,7 @@
         </div>
       </div>
 
-      <div class="personal-classes" *ngIf="isShowPersonalClasses">
-        <b>Kulonora beosztas</b>
-        <div *ngIf="calendarOptionsTimeTable"></div>
-        <ng-fullcalendar id="time-personal-calendar" #ucCalendarPersonal [options]="calendarOptionsPersonal"
-                         [(eventsModel)]="eventsPersonal"></ng-fullcalendar>
-        <button class="btn btn-primary logoutButton" (click)="addEvent(content)">Különóra Hozzáadása</button>
-        <button class="btn btn-primary logoutButton" (click)="removeEvent()">Különóra Lemondása</button>
-      </div>
+      <app-personal-training [isShow]="isShowPersonalClasses"></app-personal-training>
 
       <div class="payment-content" *ngIf="isShowPayments">
         <table class="table table-striped">
@@ -64,43 +57,4 @@
       </div>
     </div>
   </div>
-</div>
-
-<!--MODAL template-->
-<div>
-  <ng-template #content let-modal>
-    <div class="modal-header">
-      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
-      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
-    </div>
-    <div class="modal-body row">
-      <div class="col-7 time-picker">
-        <ngb-timepicker [minuteStep]="15" [(ngModel)]="time"></ngb-timepicker>
-      </div>
-      <div class="col-3 day-picker">
-        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="day">
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="1"> Hétfő
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="2"> Kedd
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="3"> Szerda
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="4"> Csütörtök
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="5"> Péntek
-          </label>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close(dp)">Save</button>
-    </div>
-  </ng-template>
 </div>

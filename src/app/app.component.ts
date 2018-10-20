@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {Options} from 'fullcalendar';
 import {CalendarComponent} from 'ng-fullcalendar';
-import * as $ from '../../node_modules/jquery/dist/jquery.js';
 import * as moment from '../../node_modules/moment/';
 import {timeTableEvents} from './events/timeTableEvents';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +14,11 @@ export class AppComponent implements OnInit {
   isShowPersonalClasses: boolean;
   isShowPayments: boolean;
 
-  time: any;
   day: any;
 
   eventsTimeTable: any;
-  eventsPersonal: any;
   calendarOptionsTimeTable: Options;
-  calendarOptionsPersonal: Options;
   @ViewChild(CalendarComponent) ucCalendarTimeTable: CalendarComponent;
-  @ViewChild(CalendarComponent) ucCalendarPersonal: CalendarComponent;
 
   dates = this.enumerateDates(new Date('2018-10-01'), new Date('2019-06-01'));
   paymentTable = [
@@ -34,7 +28,7 @@ export class AppComponent implements OnInit {
     ['Dansator #4', false, false, false, false, false, false, false, false]
   ];
 
-  constructor(private modalService: NgbModal) {
+  constructor() {
   }
 
   enumerateDates(startDate, endDate) {
@@ -79,32 +73,6 @@ export class AppComponent implements OnInit {
     this.isShowPayments = true;
   }
 
-  addEvent(content): void {
-    this.modalService.open(content, {backdropClass: 'light-blue-backdrop'}).result.then(() => {
-      let endTime;
-      if (this.time.minute <= 15) {
-        endTime = this.time.hour + ':' + (this.time.minute + 45);
-      } else {
-        endTime = (this.time.hour + 1) + ':' + (this.time.minute - 15);
-      }
-      const event = [{
-        id: 'extra',
-        title: 'Eronleti Kittivel',
-        start: this.time.hour + ':' + this.time.minute,
-        end: endTime,
-        dow: [this.day],
-        color: '#be4a47',
-        textColor: 'white'
-      }];
-      $('#time-personal-calendar').fullCalendar('renderEvents', event, true);
-    });
-  }
-
-  removeEvent(): void {
-    const event = ['extra'];
-    $('#time-personal-calendar').fullCalendar('removeEvents', event);
-  }
-
   ngOnInit() {
     this.calendarOptionsTimeTable = {
       editable: false,
@@ -125,27 +93,6 @@ export class AppComponent implements OnInit {
       contentHeight: 450,
       height: 500,
       events: timeTableEvents
-    };
-
-    this.calendarOptionsPersonal = {
-      editable: false,
-      eventLimit: false,
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: ''
-      },
-      buttonText: {
-        today: 'ma'
-      },
-      defaultView: 'agendaWeek',
-      locale: 'hu',
-      maxTime: moment.duration(22, 'h'),
-      minTime: moment.duration(7, 'h'),
-      weekends: true,
-      contentHeight: 450,
-      height: 500,
-      events: []
     };
   }
 
