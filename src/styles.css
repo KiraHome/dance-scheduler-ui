@@ -1,7 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+@import '~@ngx-share/button/styles/share-buttons.css';
+@import '~@ngx-share/button/styles/themes/default/default-theme.css';
 
 body {
-  font-family: Rockwell;
+  font-family: Rockwell, sans-serif;
 }
 
 .fc-button {

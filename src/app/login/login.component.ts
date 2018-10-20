@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {ShareButtons} from '@ngx-share/core';
+
 
 @Component({
   selector: 'app-login',
@@ -10,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginName: string;
   loginPass: string;
 
-  constructor() {
+  constructor(public share: ShareButtons) {
   }
 
   ngOnInit() {
