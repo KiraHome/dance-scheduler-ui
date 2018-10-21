@@ -21,11 +21,11 @@
 
 .tab-pane,
 .menu-item {
-  background-color: azure;
+  background-color: #0f52ba;
   border-radius: 0;
   height: 100%;
 }
 
 .menu-item:hover {
-  background-color: aquamarine;
+  background-color: rgba(15, 82, 186, 0.2);
 }

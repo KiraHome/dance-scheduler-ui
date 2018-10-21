@@ -1,7 +1,29 @@
-<div class="time-table" *ngIf="isShow">
-  <b>Heti Orarend</b>
-  <div *ngIf="calendarOptionsTimeTable">
-    <ng-fullcalendar id="time-table-calendar" #ucCalendarTimeTable [options]="calendarOptionsTimeTable"
-                     [(eventsModel)]="eventsTimeTable"></ng-fullcalendar>
+<div *ngIf="isShow">
+  <div class="col-7 trainer-buttons calendar-change">
+    <b>Heti Orarend</b>
+    <div class="btn-group right-cal">
+      <button class="btn btn-primary" (click)="decrement()">
+        Előző hét
+      </button>
+      <button class="btn btn-outline-secondary" (click)="today()">
+        Mai hét
+      </button>
+      <button class="btn btn-primary" (click)="increment()">
+        Következő hét
+      </button>
+    </div>
+  </div>
+  <div class="row calendar-content">
+    <mwl-calendar-week-view class="calendar-content"
+                            [locale]="'en'"
+                            [weekStartsOn]="1"
+                            precision="minutes"
+                            [viewDate]="viewDate"
+                            [events]="events"
+                            [refresh]="refresh"
+                            [dayStartHour]="15"
+                            [dayEndHour]="22"
+                            [excludeDays]="excludedDays">
+    </mwl-calendar-week-view>
   </div>
 </div>

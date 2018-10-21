@@ -1,0 +1,114 @@
+<div *ngIf="isShow">
+  <div class="row wrapper">
+    <div class="col-3 trainer-buttons">
+      <b>Különórabeosztás edző szerint:</b>
+      <form [formGroup]="trainerFormControl">
+        <div class="btn-group btn-group-toggle"
+             ngbRadioGroup name="radioBasic" [(ngModel)]="trainer" [ngModelOptions]="{standalone: true}"
+             (change)="filterByTrainer(trainer)">
+          <label ngbButtonLabel class="btn-primary active">
+            <input ngbButton type="radio" [value]="0"> Mind
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="1"> Anita
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="2"> Csongor
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="3"> Robi
+          </label>
+        </div>
+      </form>
+    </div>
+    <div class="col-4 trainer-buttons">
+      <button id="add-new" class="btn btn-primary add-button" (click)="addNewEvent(content)">Különóra Hozzáadása</button>
+      <button id="save-new" class="btn btn-primary add-button" (click)="saveEvents()">Különórák Mentése</button>
+    </div>
+    <div class="col-5 trainer-buttons calendar-change">
+      <div class="btn-group right-cal">
+        <button class="btn btn-primary" (click)="decrement()">
+          Előző hét
+        </button>
+        <button class="btn btn-outline-secondary" (click)="today()">
+          Mai hét
+        </button>
+        <button class="btn btn-primary" (click)="increment()">
+          Következő hét
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="row calendar-content">
+    <mwl-calendar-week-view
+      class="calendar-content"
+      [locale]="'en'"
+      [weekStartsOn]="1"
+      precision="minutes"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      [dayStartHour]="7"
+      [dayEndHour]="22"
+      [hourSegments]="4"
+      (eventTimesChanged)="eventTimesChanged($event)"
+      (eventClicked)="eventClicked($event)">
+    </mwl-calendar-week-view>
+  </div>
+</div>
+
+<!--MODAL day/time pick template-->
+<div>
+  <ng-template #content let-modal id="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Különóra időpont rögzítése</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body row">
+      <div class="col-3 time-picker">
+        <b>Hánykor: </b>
+        <div class="form-group">
+          <ngb-timepicker [formControl]="ctrl" [minuteStep]="15" [(ngModel)]="time" required></ngb-timepicker>
+        </div>
+        <div class="small form-text text-danger" *ngIf="!ctrl.valid">
+          <div *ngIf="ctrl.errors['required']">Válassz időpontot 7:00 és 21:15 között</div>
+          <div *ngIf="ctrl.errors['tooLate']">21:15 az utolsó érvényes időpont</div>
+          <div *ngIf="ctrl.errors['tooEarly']">Nem lehet korábban, mint 7:00</div>
+        </div>
+      </div>
+      <div class="col-9 day-picker">
+        <b>Melyik napon rendszeresen: </b>
+        <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="day">
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="0"> Hétfő
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="1"> Kedd
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="2"> Szerda
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="3"> Csütörtök
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="4"> Péntek
+          </label>
+        </div>
+        <div>
+          <b>Ki: </b>
+          <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who" required>
+          <div *ngIf="!who" class="invalid-name">Név megadása kötelező</div>
+          <b>Kivel: </b>
+          <input title="Aki a különórát tarjta" type="text" class="form-control" [(ngModel)]="whom" required>
+          <div *ngIf="!whom" class="invalid-name">Név megadása kötelező</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close(dp)">Oké</button>
+    </div>
+  </ng-template>
+</div>

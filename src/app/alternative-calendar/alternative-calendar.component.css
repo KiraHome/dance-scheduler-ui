@@ -1,0 +1,43 @@
+.logoutButton {
+  margin: 5px 5px 5px 5px;
+}
+
+.invalid-name {
+  color: #ff8080;
+}
+
+.trainer-buttons {
+  margin-bottom: 10px;
+}
+
+.calendar-content {
+  overflow: auto;
+  max-height: 540px;
+  width: 100%;
+}
+
+.add-button {
+  margin-top: 24px;
+}
+
+.calendar-change {
+  padding-top: 24px;
+}
+
+.right-cal {
+  float: right;
+}
+
+.wrapper {
+  margin-right: 2px;
+}
+
+#add-new {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#save-new {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}

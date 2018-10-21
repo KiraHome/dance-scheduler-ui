@@ -40,3 +40,7 @@ body {
 .modal-xl {
   max-width: 600px !important;
 }
+
+.svg-tool-icon {
+  width: 25px;
+}

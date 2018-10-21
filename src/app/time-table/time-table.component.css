@@ -1,0 +1,34 @@
+.logoutButton {
+  margin: 5px 5px 5px 5px;
+}
+
+.trainer-buttons {
+  margin-bottom: 10px;
+}
+
+.calendar-content {
+  overflow: hidden;
+  max-height: 528px;
+  width: 100%;
+}
+
+.add-button {
+  margin-top: 24px;
+}
+
+.calendar-change {
+  padding-top: 24px;
+}
+
+.right-cal {
+  margin-bottom: 24px;
+  float: right;
+}
+
+.wrapper {
+  margin-right: 2px;
+}
+
+.cal-event {
+  color: white !important;
+}
