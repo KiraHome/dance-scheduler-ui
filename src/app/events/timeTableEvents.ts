@@ -1,11 +1,11 @@
-import {addDays, addHours, addMinutes, startOfDay} from 'date-fns';
+import {addDays, addHours, addMinutes, addWeeks, startOfDay} from 'date-fns';
 import {CalendarEvent} from 'angular-calendar';
 
 
 export const timeTableEvents: CalendarEvent[] = [
   {
-    start: addMinutes(addHours(addDays(startOfDay(new Date()), 1), 17), 30),
-    end: addMinutes(addHours(addDays(startOfDay(new Date()), 1), 18), 30),
+    start: addWeeks(addMinutes(addHours(addDays(startOfDay(new Date()), 1), 17), 30), -1),
+    end: addWeeks(addMinutes(addHours(addDays(startOfDay(new Date()), 1), 18), 30), -1),
     title: 'Erőnléti Kittivel',
     color: {primary: '#be4a47', secondary: '#ff4a47'},
     id: 'Erőnléti Kittivel' + Math.random(),

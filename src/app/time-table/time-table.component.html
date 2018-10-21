@@ -23,7 +23,8 @@
                             [refresh]="refresh"
                             [dayStartHour]="15"
                             [dayEndHour]="22"
-                            [excludeDays]="excludedDays">
+                            [excludeDays]="excludedDays"
+                            (beforeViewRender)="updateCalendarEvents($event)">
     </mwl-calendar-week-view>
   </div>
 </div>

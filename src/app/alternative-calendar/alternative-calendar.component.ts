@@ -21,7 +21,10 @@ export class AlternativeCalendarComponent implements OnInit {
   time: any;
   day = 0;
   who: string;
-  whom: string;
+  whom = {
+    name: 'Válassz',
+    id: undefined
+  };
 
   isValidTime: boolean;
 
@@ -92,14 +95,16 @@ export class AlternativeCalendarComponent implements OnInit {
 
   addNewEvent(content): void {
     this.modalService.open(content, {backdropClass: 'light-blue-backdrop', size: 'xl' as 'lg'}).result.then(() => {
-      if (this.validateName()) {
+      if (this.validateModal()) {
+        const trainerName = this.whom.name === 'Anita' ? 'Anitá' : this.whom.name;
         const event: CalendarEvent = {
           draggable: true,
           start: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute),
           end: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute + 45),
-          title: this.who + ' órázik ' + this.whom + 'nál',
+          title: this.who + ' órázik ' + trainerName + 'nál',
           color: {primary: this.colourSet[3], secondary: this.colourSet[5]},
-          actions: this.globalActions
+          actions: this.globalActions,
+          id: this.whom.id + ' ' + this.who + ' ' + trainerName + ' ' + Math.random()
         };
         this.events.push(event);
         this.originalEvents.push(event);
@@ -111,6 +116,8 @@ export class AlternativeCalendarComponent implements OnInit {
 
   removeEvent(event): void {
     this.events = this.events.filter(iEvent => iEvent !== event);
+    this.newEvents = this.newEvents.filter(iEvent => iEvent !== event);
+    this.originalEvents = this.events.slice();
   }
 
   increment(): void {
@@ -134,8 +141,8 @@ export class AlternativeCalendarComponent implements OnInit {
     console.log('Event clicked', event);
   }
 
-  validateName(): boolean {
-    return this.who && this.whom && this.isValidTime;
+  validateModal(): boolean {
+    return this.who && this.whom.id && this.isValidTime;
   }
 
   filterByTrainer(trainer: number): void {
@@ -144,6 +151,13 @@ export class AlternativeCalendarComponent implements OnInit {
       return;
     }
     this.events = this.originalEvents.filter(event => event.id.toString().startsWith(trainer.toString()));
+  }
+
+  setTrainer(name, id) {
+    this.whom = {
+      name: name,
+      id: id
+    };
   }
 
   eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {

@@ -8,8 +8,9 @@
 
 .calendar-content {
   overflow: hidden;
-  max-height: 528px;
+  max-height: 541px;
   width: 100%;
+  margin-left: 0;
 }
 
 .add-button {
@@ -27,8 +28,4 @@
 
 .wrapper {
   margin-right: 2px;
-}
-
-.cal-event {
-  color: white !important;
 }

@@ -12,8 +12,9 @@
 
 .calendar-content {
   overflow: auto;
-  max-height: 540px;
+  max-height: 541px;
   width: 100%;
+  margin-left: 0;
 }
 
 .add-button {
@@ -30,6 +31,7 @@
 
 .wrapper {
   margin-right: 2px;
+  height: 86px;
 }
 
 #add-new {
@@ -40,4 +42,8 @@
 #save-new {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+}
+
+.trainer-dropdown {
+  padding-left: 0;
 }

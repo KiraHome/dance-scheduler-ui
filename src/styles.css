@@ -38,9 +38,13 @@ body {
 }
 
 .modal-xl {
-  max-width: 600px !important;
+  max-width: 770px !important;
 }
 
 .svg-tool-icon {
   width: 25px;
+}
+
+.cal-event {
+  color: white !important;
 }

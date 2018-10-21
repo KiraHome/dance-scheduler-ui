@@ -1,5 +1,5 @@
 .header-line {
-  background-color: #8f8f8f;
+  background-color: white;
   margin-left: 0;
 }
 
@@ -8,15 +8,16 @@
 }
 
 .logoutButton {
+  float: right;
   margin: 5px 5px 5px 5px;
 }
 
 .balet-woman {
-  width: 50px;
-  height: 50px;
-  background: url(../assets/balett-woman.svg) no-repeat top left;
+  width: 100%;
+  height: 100%;
+  background: url(../assets/loginlogo.png) no-repeat top left;
   background-size: contain;
-  float: right;
+  float: left;
 }
 
 .tab-pane,
@@ -28,4 +29,10 @@
 
 .menu-item:hover {
   background-color: rgba(15, 82, 186, 0.2);
+}
+
+.image {
+  opacity: 0.5;
+  width: 67%;
+  height: 67%;
 }

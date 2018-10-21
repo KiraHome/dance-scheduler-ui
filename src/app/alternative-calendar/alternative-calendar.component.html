@@ -96,14 +96,29 @@
           <label ngbButtonLabel class="btn-primary">
             <input ngbButton type="radio" [value]="4"> Péntek
           </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="5"> Szombat
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="6"> Vasárnap
+          </label>
         </div>
         <div>
           <b>Ki: </b>
           <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who" required>
           <div *ngIf="!who" class="invalid-name">Név megadása kötelező</div>
           <b>Kivel: </b>
-          <input title="Aki a különórát tarjta" type="text" class="form-control" [(ngModel)]="whom" required>
-          <div *ngIf="!whom" class="invalid-name">Név megadása kötelező</div>
+          <div class="col trainer-dropdown">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>{{whom.name}}</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button class="dropdown-item" (click)="setTrainer('Anita', 1)">Anita</button>
+                <button class="dropdown-item" (click)="setTrainer('Csongor', 2)">Csongor</button>
+                <button class="dropdown-item" (click)="setTrainer('Robi', 3)">Robi</button>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!whom.id" class="invalid-name">Név megadása kötelező</div>
         </div>
       </div>
     </div>

@@ -3,26 +3,41 @@
 <div class="main-page" *ngIf="isLoggedInAdmin()">
 
   <div class="header-line row">
-    <div class="col-10">
-      <button class="btn btn-primary logoutButton" (click)="logout()">Logout</button>
-    </div>
-    <div class="col-2">
+    <div class="col-1">
       <div class="balet-woman"></div>
     </div>
-  </div>
-
-  <div class="row content">
-    <div class="tab-pane col-2">
-      <button class="menu-item btn btn-light-blue col-12" (click)="showTimeTable()">Órarend</button>
-      <button class="menu-item btn btn-light-blue col-12" (click)="showPersonalClasses()">Különórák</button>
-      <button class="menu-item btn btn-light-blue col-12" (click)="showPayments()">Befizetések</button>
-      <div class="col-12" style="min-height: 500px"></div>
+    <div class="col-10 content">
+      <ngb-tabset>
+        <ngb-tab title="Főoldal">
+          <ng-template ngbTabContent>
+            <img class="image" src="../assets/loginlogo.png">
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Órarend">
+          <ng-template ngbTabContent>
+            <div class="tab-content">
+              <app-time-table [isShow]="true"></app-time-table>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Különórák">
+          <ng-template ngbTabContent>
+            <div class="tab-content">
+              <app-alternative-calendar [isShow]="true"></app-alternative-calendar>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Befizetések">
+          <ng-template ngbTabContent>
+            <div class="tab-content">
+              <app-payments [isShow]="true"></app-payments>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
     </div>
-
-    <div class="tab-content col-10">
-      <app-time-table [isShow]="isShowTimeTable"></app-time-table>
-      <app-alternative-calendar [isShow]="isShowPersonalClasses"></app-alternative-calendar>
-      <app-payments [isShow]="isShowPayments"></app-payments>
+    <div class="col-1">
+      <button class="btn btn-primary logoutButton" (click)="logout()">Logout</button>
     </div>
   </div>
 </div>

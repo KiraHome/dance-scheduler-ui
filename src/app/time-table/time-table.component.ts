@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {addWeeks} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -31,10 +31,11 @@ export class TimeTableComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  originalEvents: CalendarEvent[];
+  originalEvents: CalendarEvent[] = [];
   events: CalendarEvent[] = timeTableEvents;
+  tempEvents: CalendarEvent[] = [];
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder) {
+  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
   }
 
   increment(): void {
@@ -51,6 +52,37 @@ export class TimeTableComponent implements OnInit {
 
   changeDate(date: Date): void {
     this.viewDate = date;
+  }
+
+  updateCalendarEvents($event): void {
+    if (this.tempEvents.length > 0) {
+      this.tempEvents.forEach(event => {
+        this.events.splice(this.events.indexOf(event), 1);
+      });
+    }
+    this.tempEvents = [];
+
+    const currentMonday: Date = $event.period.start;
+    if (currentMonday.getDate() > timeTableEvents[0].start.getDate()) {
+      this.tempEvents = this.events.map(event => {
+        event.start = addWeeks(event.start, 1);
+        event.end = addWeeks(event.end, 1);
+        return event;
+      });
+    } else if (currentMonday.getDate() < timeTableEvents[0].start.getDate()) {
+      this.tempEvents = this.events.map(event => {
+        event.start = addWeeks(event.start, -1);
+        event.end = addWeeks(event.end, -1);
+        return event;
+      });
+    }
+
+    if (this.tempEvents.length > 0) {
+      this.tempEvents.forEach(event => {
+        this.events.push(event);
+      });
+    }
+    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {

@@ -6,9 +6,6 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  isShowTimeTable: boolean;
-  isShowPersonalClasses: boolean;
-  isShowPayments: boolean;
 
   constructor() {
   }
@@ -19,24 +16,6 @@ export class AppComponent implements OnInit {
 
   logout(): void {
     window.localStorage.removeItem('credentials');
-  }
-
-  showTimeTable(): void {
-    this.isShowTimeTable = true;
-    this.isShowPersonalClasses = false;
-    this.isShowPayments = false;
-  }
-
-  showPersonalClasses(): void {
-    this.isShowTimeTable = false;
-    this.isShowPersonalClasses = true;
-    this.isShowPayments = false;
-  }
-
-  showPayments(): void {
-    this.isShowTimeTable = false;
-    this.isShowPersonalClasses = false;
-    this.isShowPayments = true;
   }
 
   ngOnInit() {

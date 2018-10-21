@@ -6,7 +6,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
-import {FullCalendarModule} from 'ng-fullcalendar';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
 import {TimeTableComponent} from './time-table/time-table.component';
@@ -32,7 +31,6 @@ import {ServiceInterceptor} from './_config/service-interceptor';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FullCalendarModule,
     ShareButtonModule.forRoot(),
     CommonModule,
     CalendarModule.forRoot({
