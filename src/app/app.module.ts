@@ -16,6 +16,9 @@ import {CalendarModule, DateAdapter} from 'angular-calendar';
 import {adapterFactory} from 'angular-calendar/date-adapters/date-fns';
 import {BasicAuthInterceptor} from './_config/authentication-service-interceptor';
 import {ServiceInterceptor} from './_config/service-interceptor';
+import {EmbedVideo} from 'ngx-embed-video/dist';
+import { VideoEmbedderComponent } from './video-embedder/video-embedder.component';
+import {HttpModule} from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,8 @@ import {ServiceInterceptor} from './_config/service-interceptor';
     LoginComponent,
     TimeTableComponent,
     PaymentsComponent,
-    AlternativeCalendarComponent
+    AlternativeCalendarComponent,
+    VideoEmbedderComponent
   ],
   imports: [
     BrowserModule,
@@ -33,6 +37,8 @@ import {ServiceInterceptor} from './_config/service-interceptor';
     HttpClientModule,
     ShareButtonModule.forRoot(),
     CommonModule,
+    HttpModule,
+    EmbedVideo.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory

@@ -1,0 +1,30 @@
+.video-container {
+  font-size: 0;
+  position: relative;
+  overflow: hidden;
+  padding-top: 56.25%;
+}
+
+.control-button {
+  height: 720px;
+}
+
+.left-ctrl {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.right-ctrl {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.slider-container {
+  margin-top: 20px;
+  margin-left: 0 !important;
+}
+
+.outter-container {
+  width: 90%;
+  height: 720px;
+}

@@ -48,3 +48,12 @@ body {
 .cal-event {
   color: white !important;
 }
+
+iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 96%;
+  border: 0;
+}

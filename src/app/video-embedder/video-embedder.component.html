@@ -1,0 +1,18 @@
+<b>Ajánlott videók: </b>
+<div class="row slider-container">
+  <span>
+    <button class="btn btn-dark control-button left-ctrl" (click)="prevVideo()">{{'<'}}</button>
+  </span>
+  <span class="outter-container">
+    <div class="video-container" [innerHtml]="getSanitizedHtmlElement()">
+    </div>
+  </span>
+  <span>
+    <button class="btn btn-dark control-button right-ctrl" (click)="nextVideo()">{{'>'}}</button>
+  </span>
+</div>
+<b>Az én ajánlatom: (youtube link)</b>
+<div>
+  <input type="text" class="form-control" [(ngModel)]="requirement">
+  <button class="btn btn-dark" (click)="addNewRequirement()">Hozzáadás</button>
+</div>
