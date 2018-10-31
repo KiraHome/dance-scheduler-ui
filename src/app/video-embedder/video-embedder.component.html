@@ -10,9 +10,17 @@
   <span>
     <button class="btn btn-dark control-button right-ctrl" (click)="nextVideo()">{{'>'}}</button>
   </span>
+  <span class="row recommendation">
+    <div class="col-9">
+      <b>Az én ajánlatom: (youtube link)</b>
+      <input type="text" class="form-control" [(ngModel)]="requirement">
+    </div>
+    <div class="col-3">
+      <button class="btn btn-dark" (click)="addNewRequirement()">Hozzáadás</button>
+    </div>
+  </span>
 </div>
-<b>Az én ajánlatom: (youtube link)</b>
-<div>
-  <input type="text" class="form-control" [(ngModel)]="requirement">
-  <button class="btn btn-dark" (click)="addNewRequirement()">Hozzáadás</button>
-</div>
+
+<hr>
+
+<app-comments></app-comments>

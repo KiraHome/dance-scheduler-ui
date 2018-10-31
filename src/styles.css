@@ -57,3 +57,18 @@ iframe {
   height: 96%;
   border: 0;
 }
+
+::-webkit-scrollbar {
+  width: 5px !important;
+  height: 5px !important;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #666 !important;
+  border-radius: 20px !important;
+}
+
+::-webkit-scrollbar-track {
+  background: #ddd !important;
+  border-radius: 20px !important;
+}

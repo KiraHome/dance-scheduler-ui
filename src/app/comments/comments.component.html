@@ -1,0 +1,17 @@
+<div class="comment-field">
+  <div class="input-control d-flex flex-wrap">
+    <div class="col-9">
+      <textarea type="text" class="form-control" [(ngModel)]="newComment"></textarea>
+    </div>
+    <div class="col-3">
+      <button class="btn btn-dark" (click)="addComment(newComment)">Komment Hozzáadása</button>
+    </div>
+  </div>
+  <div class="row comments">
+    <div *ngFor="let comm of comments" class="comment-element">
+      <b>{{comm.name}}</b>
+      <i>{{' ' + (comm.date | dateTimeFormatter)}}</i>
+      <pre>{{comm.comment}}</pre>
+    </div>
+  </div>
+</div>

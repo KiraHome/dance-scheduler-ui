@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {EmbedVideoService} from 'ngx-embed-video/dist';
 import {DomSanitizer} from '@angular/platform-browser';
+import * as $ from '../../../node_modules/jquery/dist/jquery';
 
 @Component({
   selector: 'app-video-embedder',
