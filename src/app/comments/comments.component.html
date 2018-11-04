@@ -10,7 +10,7 @@
   <div class="row comments">
     <div *ngFor="let comm of comments" class="comment-element">
       <b>{{comm.name}}</b>
-      <i>{{' ' + (comm.date | dateTimeFormatter)}}</i>
+      <i>{{' ' + (comm.created_date | dateTimeFormatter)}}</i>
       <pre>{{comm.comment}}</pre>
     </div>
   </div>

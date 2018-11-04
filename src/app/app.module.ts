@@ -6,7 +6,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ShareButtonModule} from '@ngx-share/button';
 import {TimeTableComponent} from './time-table/time-table.component';
 import {PaymentsComponent} from './payments/payments.component';
@@ -19,6 +19,7 @@ import {VideoEmbedderComponent} from './video-embedder/video-embedder.component'
 import {HttpModule} from '@angular/http';
 import {CommentsComponent} from './comments/comments.component';
 import { DateTimeFormatterPipe } from './_pipes/date-time-formatter.pipe';
+import {BaseUrlInterceptor} from './_config/base-url-interceptor';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { DateTimeFormatterPipe } from './_pipes/date-time-formatter.pipe';
       useFactory: adapterFactory
     })
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

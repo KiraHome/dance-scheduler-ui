@@ -18,6 +18,8 @@ export class CommentsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.comments = [];
+
     this.service.getComments().pipe(
       map((result) => {
         function compare(a, b) {
@@ -33,35 +35,19 @@ export class CommentsComponent implements OnInit {
         this.comments = result.sort(compare);
       }),
       catchError((err) => {
-        // this.comments = [];
         if (err.status === 404) {
           return [];
         }
         return throwError(err);
       })
     ).subscribe();
-
-    // dummy
-    this.comments = [];
-    this.comments.push({
-      name: 'Béla',
-      date: new Date(1530976560000),
-      comment: 'Comment for test',
-      onPage: 'timeTable'
-    });
-    this.comments.push({
-      name: 'Géza',
-      date: new Date(1540893600000),
-      comment: 'Comment for test 2',
-      onPage: 'timeTable'
-    });
   }
 
   addComment(comment: string): void {
     const now = new Date();
     const commentObject = {
       name: 'ADMIN',
-      date: now,
+      created_date: now,
       comment: comment,
       onPage: 'timeTable'
     };
