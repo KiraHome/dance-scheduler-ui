@@ -33,56 +33,40 @@ export class TimeTableComponent implements OnInit {
 
   originalEvents: CalendarEvent[] = [];
   events: CalendarEvent[] = timeTableEvents;
-  tempEvents: CalendarEvent[] = [];
+  weeksAdded = 0;
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
   }
 
   increment(): void {
     this.changeDate(addWeeks(this.viewDate, 1));
+    this.events.forEach(event => {
+      event.start = addWeeks(event.start, 1);
+      event.end = addWeeks(event.end, 1);
+    });
+    ++this.weeksAdded;
   }
 
   decrement(): void {
     this.changeDate(addWeeks(this.viewDate, -1));
+    this.events.forEach(event => {
+      event.start = addWeeks(event.start, -1);
+      event.end = addWeeks(event.end, -1);
+    });
+    --this.weeksAdded;
   }
 
   today(): void {
     this.changeDate(new Date());
+    this.events.forEach(event => {
+      event.start = addWeeks(event.start, -this.weeksAdded);
+      event.end = addWeeks(event.end, -this.weeksAdded);
+    });
+    this.weeksAdded = 0;
   }
 
   changeDate(date: Date): void {
     this.viewDate = date;
-  }
-
-  updateCalendarEvents($event): void {
-    if (this.tempEvents.length > 0) {
-      this.tempEvents.forEach(event => {
-        this.events.splice(this.events.indexOf(event), 1);
-      });
-    }
-    this.tempEvents = [];
-
-    const currentMonday: Date = $event.period.start;
-    if (currentMonday.getDate() > timeTableEvents[0].start.getDate()) {
-      this.tempEvents = this.events.map(event => {
-        event.start = addWeeks(event.start, 1);
-        event.end = addWeeks(event.end, 1);
-        return event;
-      });
-    } else if (currentMonday.getDate() < timeTableEvents[0].start.getDate()) {
-      this.tempEvents = this.events.map(event => {
-        event.start = addWeeks(event.start, -1);
-        event.end = addWeeks(event.end, -1);
-        return event;
-      });
-    }
-
-    if (this.tempEvents.length > 0) {
-      this.tempEvents.forEach(event => {
-        this.events.push(event);
-      });
-    }
-    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
