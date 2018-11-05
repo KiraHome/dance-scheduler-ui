@@ -2,13 +2,13 @@
   <div class="col-7 trainer-buttons calendar-change">
     <b>Heti Orarend</b>
     <div class="btn-group right-cal">
-      <button class="btn btn-primary" (click)="decrement()">
+      <button class="btn btn-dark" (click)="decrement()">
         Előző hét
       </button>
       <button class="btn btn-outline-secondary" (click)="today()">
         Mai hét
       </button>
-      <button class="btn btn-primary" (click)="increment()">
+      <button class="btn btn-dark" (click)="increment()">
         Következő hét
       </button>
     </div>
@@ -28,6 +28,8 @@
     </mwl-calendar-week-view>
   </div>
 
+  <hr>
+
   <b style="margin-left: 30px;">Komment szekció: </b>
-  <app-comments></app-comments>
+  <app-comments [pageName]="'time-table'"></app-comments>
 </div>

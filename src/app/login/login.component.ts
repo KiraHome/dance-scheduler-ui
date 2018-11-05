@@ -24,11 +24,15 @@ export class LoginComponent implements OnInit {
 
   login() {
     if (this.loginName === 'tanc' && this.loginPass === 'tanc') {
-      window.localStorage.setItem('basic_auth', 'ADMIN');
+      window.localStorage.setItem('credentials', 'ADMIN');
     }
   }
 
   register(username: string, password: string): void {
+    const body = {
+      userName: username,
+      password: btoa(password)
+    };
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -36,8 +40,8 @@ export class LoginComponent implements OnInit {
       })
     };
 
-    this.http.post('register', httpOptions)
-      .pipe(catchError((response: any) => this.handleError(response)));
+    this.http.post('register', body, httpOptions)
+      .pipe(catchError((response: any) => this.handleError(response))).subscribe();
   }
 
   private handleError(error: Response | any) {

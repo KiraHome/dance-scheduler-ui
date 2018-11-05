@@ -11,7 +11,7 @@ export class AppComponent implements OnInit {
   }
 
   isLoggedInAdmin(): boolean {
-    return window.localStorage.getItem('basic_auth') === 'ADMIN';
+    return window.localStorage.getItem('credentials') === 'ADMIN';
   }
 
   logout(): void {
