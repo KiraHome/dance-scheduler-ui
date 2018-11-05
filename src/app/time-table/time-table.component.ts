@@ -1,11 +1,12 @@
-import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {addWeeks} from 'date-fns';
+import {addDays, addHours, addMinutes, addWeeks, startOfDay, startOfWeek} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from 'rxjs';
 import {CalendarEvent, CalendarEventTitleFormatter} from 'angular-calendar';
-import {timeTableEvents} from '../events/timeTableEvents';
 import {CustomEventTitleFormatter} from '../utils/custom-event-title-formatter';
+import {TimeTableService} from '../_services/time-table.service';
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-time-table',
@@ -31,11 +32,11 @@ export class TimeTableComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  originalEvents: CalendarEvent[] = [];
-  events: CalendarEvent[] = timeTableEvents;
+  events: CalendarEvent[];
   weeksAdded = 0;
 
-  constructor(private modalService: NgbModal, private formBuilder: FormBuilder, private cdr: ChangeDetectorRef) {
+  constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
+              private timeTableService: TimeTableService) {
   }
 
   increment(): void {
@@ -70,6 +71,29 @@ export class TimeTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.timeTableService.getTimeTableData().pipe(
+      map((result) => {
+        const option = {weekStartsOn: 1};
+        if (result.length > 0) {
+          this.events = result.map(event => {
+            const start = JSON.parse(event.start);
+            event.start =
+              addMinutes(addHours(addDays(startOfWeek(startOfDay(new Date()), option), start[0]), start[1]), start[2]);
+            const end = JSON.parse(event.end_);
+            event.end = {};
+            event.end =
+              addMinutes(addHours(addDays(startOfWeek(startOfDay(new Date()), option), end[0]), end[1]), end[2]);
+            delete event.end_;
+            event.cssClass = {};
+            event.cssClass = event.cssclass;
+            event.color = JSON.parse(event.color);
+            delete event.cssclass;
+            return event;
+          });
+        }
+      })
+    ).subscribe();
+
     this.ctrl = new FormControl('', (control: FormControl) => {
       const value = control.value;
 
@@ -87,7 +111,5 @@ export class TimeTableComponent implements OnInit {
     });
 
     this.trainerFormControl = this.formBuilder.group({'model': 0});
-
-    this.originalEvents = this.events.slice();
   }
 }
