@@ -1,26 +1,36 @@
 <b>Ajánlott videók: </b>
 <div class="row slider-container">
-  <span>
-    <button class="btn btn-dark control-button left-ctrl" (click)="prevVideo()">{{'<'}}</button>
-  </span>
-  <span class="outter-container">
-    <div class="video-container" [innerHtml]="getSanitizedHtmlElement()">
+  <div class="outter-container">
+    <youtube-player
+      [height]="'500px'"
+      [width]="'100%'"
+      [videoId]="getVideoId()"
+      (ready)="savePlayer($event)"
+    ></youtube-player>
+  </div>
+</div>
+
+<div class="video-settings">
+  <div class="row control-button">
+    <div class="col-6">
+      <button class="btn btn-dark left-ctrl" (click)="prevVideo()">{{'< Előző'}}</button>
     </div>
-  </span>
-  <span>
-    <button class="btn btn-dark control-button right-ctrl" (click)="nextVideo()">{{'>'}}</button>
-  </span>
-  <span class="row recommendation">
-    <div class="col-9">
+    <div class="col-6 no-padding-right">
+      <button class="btn btn-dark right-ctrl" (click)="nextVideo()">{{'Következő >'}}</button>
+    </div>
+  </div>
+  <div class="row recommendation">
+    <span class="youtube-link">
       <b>Az én ajánlatom: (youtube link)</b>
       <input type="text" class="form-control" [(ngModel)]="requirement">
-    </div>
-    <div class="col-3">
+    </span>
+    <span class="youtube-add-button">
       <button class="btn btn-dark" (click)="addNewRequirement()">Hozzáadás</button>
-    </div>
-  </span>
+    </span>
+  </div>
 </div>
 
 <hr>
 
+<b style="margin-left: 30px;">Komment szekció: </b>
 <app-comments></app-comments>

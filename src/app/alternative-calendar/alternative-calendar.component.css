@@ -17,12 +17,17 @@
   margin-left: 0;
 }
 
+.outter-content {
+  margin-bottom: 20px;
+}
+
 .add-button {
   margin-top: 24px;
 }
 
 .calendar-change {
   padding-top: 24px;
+  padding-right: 0;
 }
 
 .right-cal {

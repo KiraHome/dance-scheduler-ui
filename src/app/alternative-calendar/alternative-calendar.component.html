@@ -1,6 +1,6 @@
 <div *ngIf="isShow">
   <div class="row wrapper">
-    <div class="col-3 trainer-buttons">
+    <div class="col-4 trainer-buttons">
       <b>Különórabeosztás edző szerint:</b>
       <form [formGroup]="trainerFormControl">
         <div class="btn-group btn-group-toggle"
@@ -21,11 +21,16 @@
         </div>
       </form>
     </div>
-    <div class="col-4 trainer-buttons">
-      <button id="add-new" class="btn btn-primary add-button" (click)="addNewEvent(content)">Különóra Hozzáadása</button>
-      <button id="save-new" class="btn btn-primary add-button" (click)="saveEvents()">Különórák Mentése</button>
+
+    <div class="col-5 trainer-buttons">
+      <div class="row">
+        <button id="add-new" class="btn btn-primary add-button" (click)="addNewEvent(content)">Különóra Hozzáadása
+        </button>
+        <button id="save-new" class="btn btn-primary add-button" (click)="saveEvents()">Különórák Mentése</button>
+      </div>
     </div>
-    <div class="col-5 trainer-buttons calendar-change">
+
+    <div class="col-3 trainer-buttons calendar-change">
       <div class="btn-group right-cal">
         <button class="btn btn-primary" (click)="decrement()">
           Előző hét
@@ -39,7 +44,8 @@
       </div>
     </div>
   </div>
-  <div class="row calendar-content">
+
+  <div class="row calendar-content outter-content">
     <mwl-calendar-week-view
       class="calendar-content"
       [locale]="'en'"
@@ -55,6 +61,8 @@
       (eventClicked)="eventClicked($event)">
     </mwl-calendar-week-view>
   </div>
+
+  <b style="margin-left: 30px;">Komment szekció: </b>
   <app-comments></app-comments>
 </div>
 

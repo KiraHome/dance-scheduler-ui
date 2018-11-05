@@ -36,7 +36,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "moment-timezone": "^0.5.21",
-    "ngx-embed-video": "^0.3.0",
+    "ngx-youtube-player": "^6.0.0",
     "rrule": "^2.5.6",
     "rxjs": "~6.2.0",
     "rxjs-compat": "^6.3.3",
