@@ -18,6 +18,10 @@ export class AppComponent implements OnInit {
     window.localStorage.removeItem('credentials');
   }
 
+  getPic(): string {
+    return window.localStorage.getItem('userPicUrl');
+  }
+
   ngOnInit() {
   }
 }

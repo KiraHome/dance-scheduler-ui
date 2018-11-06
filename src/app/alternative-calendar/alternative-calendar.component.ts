@@ -26,6 +26,7 @@ export class AlternativeCalendarComponent implements OnInit {
     name: 'Válassz',
     id: undefined
   };
+  fbLoggedIn: boolean;
 
   isValidTime: boolean;
 
@@ -222,6 +223,12 @@ export class AlternativeCalendarComponent implements OnInit {
 
     this.trainerFormControl = this.formBuilder.group({'model': 0});
     this.trainer = 0;
+
+    this.fbLoggedIn = false;
+    if (window.localStorage.getItem('user')) {
+      this.fbLoggedIn = true;
+      this.who = window.localStorage.getItem('user');
+    }
 
     this.getEvents();
   }

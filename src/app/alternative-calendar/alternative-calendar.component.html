@@ -116,7 +116,7 @@
         </div>
         <div>
           <b>Ki: </b>
-          <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who" required>
+          <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who" [disabled]="fbLoggedIn" required>
           <div *ngIf="!who" class="invalid-name">Név megadása kötelező</div>
           <b>Kivel: </b>
           <div class="col trainer-dropdown">

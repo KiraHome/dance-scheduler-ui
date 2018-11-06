@@ -47,7 +47,7 @@ export class CommentsComponent implements OnInit {
 
     const now = new Date();
     const commentObject = {
-      name: 'ADMIN',
+      name: window.localStorage.getItem('user'),
       created_date: now,
       comment: comment,
       onPage: this.pageName

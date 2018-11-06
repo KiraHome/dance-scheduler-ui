@@ -22,7 +22,19 @@ import {DateTimeFormatterPipe} from './_pipes/date-time-formatter.pipe';
 import {BaseUrlInterceptor} from './_config/base-url-interceptor';
 import {YoutubePlayerModule} from 'ngx-youtube-player';
 import {BasicAuthInterceptor} from './_config/basic-auth-interceptor';
-import { EventFlowComponent } from './event-flow/event-flow.component';
+import {EventFlowComponent} from './event-flow/event-flow.component';
+import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angular-6-social-login';
+
+
+export function getAuthServiceConfigs() {
+  const config = new AuthServiceConfig(
+    [{
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider('1771148716341703')
+    }]
+  );
+  return config;
+}
 
 @NgModule({
   declarations: [
@@ -43,6 +55,7 @@ import { EventFlowComponent } from './event-flow/event-flow.component';
     ReactiveFormsModule,
     HttpClientModule,
     ShareButtonModule.forRoot(),
+    SocialLoginModule,
     CommonModule,
     HttpModule,
     YoutubePlayerModule,
@@ -54,7 +67,8 @@ import { EventFlowComponent } from './event-flow/event-flow.component';
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true},
-    {provide: MOMENT, useValue: moment}
+    {provide: MOMENT, useValue: moment},
+    {provide: AuthServiceConfig, useFactory: getAuthServiceConfigs}
   ],
   bootstrap: [AppComponent]
 })

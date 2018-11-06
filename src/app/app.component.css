@@ -5,6 +5,7 @@
 
 .main-page {
   overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 .logoutButton {
@@ -38,9 +39,17 @@
 }
 
 .event-flow {
+  max-height: 66%;
+  overflow-y: auto;
   position: absolute;
   left: 0;
   top: 30%;
   z-index: 2;
   opacity: 0.8;
+}
+
+.fb-image {
+  width: 40px;
+  border-radius: 20px;
+  margin-right: 12px;
 }

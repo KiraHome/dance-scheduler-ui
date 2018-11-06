@@ -52,6 +52,11 @@ body {
 ::-webkit-scrollbar {
   width: 5px !important;
   height: 5px !important;
+  display: none;
+}
+
+:hover::-webkit-scrollbar {
+  display: block;
 }
 
 ::-webkit-scrollbar-thumb {
