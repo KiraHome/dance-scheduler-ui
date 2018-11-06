@@ -12,10 +12,14 @@ export class PersonalClassService {
   }
 
   savePersonalClassEvent(eventObject: CalendarEvent): Observable<any> {
-    return this.http.put('event', eventObject);
+    return this.http.put('personal-class', eventObject);
   }
 
   getPersonalClassEvents(): Observable<any> {
-    return this.http.get('event');
+    return this.http.get('personal-class');
+  }
+
+  deletePersonalClassEvent(eventObject: any) {
+    return this.http.delete('personal-class/' + eventObject.serial_id);
   }
 }

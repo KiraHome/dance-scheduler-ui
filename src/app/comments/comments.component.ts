@@ -26,17 +26,7 @@ export class CommentsComponent implements OnInit {
 
     this.service.getComments().pipe(
       map((result) => {
-        function compare(a, b) {
-          if (a.last_nom < b.last_nom) {
-            return -1;
-          }
-          if (a.last_nom > b.last_nom) {
-            return 1;
-          }
-          return 0;
-        }
-
-        this.comments = result.sort(compare).filter(res => res.on_page === this.pageName);
+        this.comments = result.filter(res => res.on_page === this.pageName);
         this.change.detectChanges();
       }),
       catchError((err) => {

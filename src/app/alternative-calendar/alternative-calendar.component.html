@@ -7,7 +7,7 @@
              ngbRadioGroup name="radioBasic" [(ngModel)]="trainer" [ngModelOptions]="{standalone: true}"
              (change)="filterByTrainer(trainer)">
           <label ngbButtonLabel class="btn-dark active">
-            <input ngbButton type="radio" [value]="0"> Mind
+            <input id="defaultTrainer" ngbButton type="radio" [value]="0"> Mind
           </label>
           <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="1"> Anita
@@ -26,7 +26,7 @@
       <div class="row">
         <button id="add-new" class="btn btn-dark add-button" (click)="addNewEvent(content)">Különóra Hozzáadása
         </button>
-        <button id="save-new" class="btn btn-outline-dark add-button" (click)="saveEvents()">Különórák Mentése</button>
+        <!--<button id="save-new" class="btn btn-outline-dark add-button" (click)="saveEvents()">Különórák Mentése</button>-->
       </div>
     </div>
 
@@ -64,7 +64,7 @@
 
   <hr>
 
-  <b style="margin-left: 30px;">Komment szekció: </b>
+  <b style="margin-left: 30px;">Hozzászólás: </b>
   <app-comments [pageName]="'personal-classes'"></app-comments>
 </div>
 
@@ -134,7 +134,7 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close(dp)">Oké</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close(dp)" [disabled]="!ctrl.valid || !who || !whom.id">Mentés</button>
     </div>
   </ng-template>
 </div>

@@ -30,7 +30,7 @@ export class AlternativeCalendarComponent implements OnInit {
 
   ctrl: FormControl;
   trainerFormControl: FormGroup;
-  trainer = 0;
+  trainer: number;
 
   refresh: Subject<any> = new Subject();
 
@@ -45,12 +45,6 @@ export class AlternativeCalendarComponent implements OnInit {
 
   private globalActions = [
     {
-      label: '<img class="svg-tool-icon" src="../../assets/svg/si-glyph-pencil.svg">',
-      onClick: ({event}: { event: CalendarEvent }): void => {
-        this.removeEvent(event);
-      }
-    },
-    {
       label: '<img class="svg-tool-icon" src="../../assets/svg/si-glyph-trash.svg">',
       onClick: ({event}: { event: CalendarEvent }): void => {
         this.removeEvent(event);
@@ -60,34 +54,7 @@ export class AlternativeCalendarComponent implements OnInit {
 
   newEvents: CalendarEvent[] = [];
   originalEvents: CalendarEvent[] = [];
-  events: CalendarEvent[] = [
-    {
-      start: addHours(startOfDay(new Date()), 5),
-      end: addHours(startOfDay(new Date()), 17),
-      title: 'Event 1',
-      color: {primary: this.colourSet[3], secondary: this.colourSet[0]},
-      actions: this.globalActions,
-      id: 1 + ' Event 1' + Math.random(),
-      draggable: true
-    },
-    {
-      start: addHours(startOfDay(addDays(new Date(), -1)), 9),
-      end: addHours(startOfDay(addDays(new Date(), -1)), 18),
-      title: 'Event 2',
-      color: {primary: this.colourSet[3], secondary: this.colourSet[4]},
-      actions: this.globalActions,
-      id: 2 + ' Event 2' + Math.random(),
-      draggable: true
-    },
-    {
-      start: addHours(startOfDay(new Date()), 8),
-      title: 'Event 3',
-      color: {primary: this.colourSet[3], secondary: this.colourSet[5]},
-      actions: this.globalActions,
-      id: 3 + ' Event 3' + Math.random(),
-      draggable: true
-    }
-  ];
+  events: any[];
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
               private personalClassService: PersonalClassService) {
@@ -98,26 +65,44 @@ export class AlternativeCalendarComponent implements OnInit {
       if (this.validateModal()) {
         const trainerName = this.whom.name === 'Anita' ? 'Anitá' : this.whom.name;
         const event: CalendarEvent = {
-          draggable: true,
           start: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute),
           end: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute + 45),
           title: this.who + ' órázik ' + trainerName + 'nál',
           color: {primary: this.colourSet[3], secondary: this.colourSet[5]},
           actions: this.globalActions,
-          id: this.whom.id + ' ' + this.who + ' ' + trainerName + ' ' + Math.random()
+          id: this.whom.id + ' ' + this.who + ' ' + trainerName + ' ' + Math.random(),
+          cssClass: ''
         };
+
         this.events.push(event);
         this.originalEvents.push(event);
         this.newEvents.push(event);
+
+        this.events = Array.from(new Set(this.events));
+        this.originalEvents = Array.from(new Set(this.originalEvents));
+        this.newEvents = Array.from(new Set(this.newEvents));
         this.refresh.next();
+
+        this.filterByTrainer(this.trainer);
+
+        this.saveEvents();
       }
     });
   }
 
   removeEvent(event): void {
-    this.events = this.events.filter(iEvent => iEvent !== event);
-    this.newEvents = this.newEvents.filter(iEvent => iEvent !== event);
-    this.originalEvents = this.events.slice();
+    if (!event.serial_id) {
+      this.events = this.events.filter(iEvent => iEvent !== event);
+      this.newEvents = this.newEvents.filter(iEvent => iEvent !== event);
+      this.originalEvents = this.events.slice();
+      return;
+    }
+
+    this.personalClassService.deletePersonalClassEvent(event).pipe(map(() => {
+      this.events = this.events.filter(iEvent => iEvent !== event);
+      this.newEvents = this.newEvents.filter(iEvent => iEvent !== event);
+      this.originalEvents = this.events.slice();
+    }), catchError(err => this.handleHttpError(err))).subscribe();
   }
 
   increment(): void {
@@ -167,18 +152,32 @@ export class AlternativeCalendarComponent implements OnInit {
   }
 
   getEvents(): void {
-    this.personalClassService.getPersonalClassEvents().pipe(map((result: CalendarEvent[]) => {
+    this.personalClassService.getPersonalClassEvents().pipe(map((result) => {
+      if (result.length > 0) {
+        this.events = result.map(event => {
+          event.start = new Date(event.start);
+          event.end = new Date(event.end_);
+          delete event.end_;
+          event.cssClass = event.cssclass;
+          event.color = JSON.parse(event.color);
+          event.actions = this.globalActions;
+          delete event.cssclass;
+          return event;
+        });
+      }
       this.events = result;
-      this.originalEvents = result;
-    }), catchError(err => this.handleHttpError(err)));
+      this.originalEvents = this.events.slice();
+      document.getElementById('defaultTrainer').click();
+    }), catchError(err => this.handleHttpError(err))).subscribe();
   }
 
   saveEvents(): void {
     this.newEvents.forEach(event => {
-      console.log('Event saved: ' + event.title);
-      this.personalClassService.savePersonalClassEvent(event).pipe(map(() => {
-        this.newEvents = [];
-      }), catchError(err => this.handleHttpError(err)));
+      event.id = ('' + event.id).charAt(0);
+      this.personalClassService.savePersonalClassEvent(event).pipe(map((result) => {
+        this.newEvents.splice(this.newEvents.indexOf(event), 1);
+        this.events[this.events.indexOf(event)].serial_id = result.serial_id;
+      }), catchError(err => this.handleHttpError(err))).subscribe();
     });
   }
 
@@ -207,7 +206,8 @@ export class AlternativeCalendarComponent implements OnInit {
     });
 
     this.trainerFormControl = this.formBuilder.group({'model': 0});
+    this.trainer = 0;
 
-    this.originalEvents = this.events.slice();
+    this.getEvents();
   }
 }
