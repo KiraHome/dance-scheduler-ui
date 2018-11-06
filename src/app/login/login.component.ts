@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ShareButtons} from '@ngx-share/core';
 import {throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {catchError} from 'rxjs/internal/operators';
+import {catchError, map} from 'rxjs/internal/operators';
+import * as crypto from 'crypto-js';
 
 
 @Component({
@@ -23,9 +24,14 @@ export class LoginComponent implements OnInit {
 
 
   login() {
-    if (this.loginName === 'tanc' && this.loginPass === 'tanc') {
-      window.localStorage.setItem('credentials', 'ADMIN');
-    }
+    const headers = {
+      username: this.loginName,
+      pass: crypto.SHA256(this.loginPass).toString(crypto.enc.Hex)
+    };
+    this.http.get('login', {headers: headers}).pipe(
+      map((res) => window.localStorage.setItem('credentials', res['basic'])),
+      catchError((response: any) => this.handleError(response))
+    ).subscribe();
   }
 
   register(username: string, password: string): void {

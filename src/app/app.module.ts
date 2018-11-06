@@ -21,6 +21,7 @@ import {CommentsComponent} from './comments/comments.component';
 import {DateTimeFormatterPipe} from './_pipes/date-time-formatter.pipe';
 import {BaseUrlInterceptor} from './_config/base-url-interceptor';
 import {YoutubePlayerModule} from 'ngx-youtube-player';
+import {BasicAuthInterceptor} from './_config/basic-auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {YoutubePlayerModule} from 'ngx-youtube-player';
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true},
     {provide: MOMENT, useValue: moment}
   ],
   bootstrap: [AppComponent]

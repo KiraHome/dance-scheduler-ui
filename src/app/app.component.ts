@@ -10,8 +10,8 @@ export class AppComponent implements OnInit {
   constructor() {
   }
 
-  isLoggedInAdmin(): boolean {
-    return window.localStorage.getItem('credentials') === 'ADMIN';
+  isLoggedIn(): boolean {
+    return !!window.localStorage.getItem('credentials');
   }
 
   logout(): void {
