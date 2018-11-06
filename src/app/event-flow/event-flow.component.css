@@ -1,0 +1,24 @@
+.wrapper {
+  margin: 10px;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight: bold;
+  min-width: 1000px;
+}
+
+.username {
+  float: right;
+}
+
+.blue {
+  background-color: rgb(193, 142, 218);
+}
+
+.green {
+  background-color: rgb(254, 249, 226);
+}
+
+.red {
+  background-color: rgb(141, 2, 31);
+  color: white;
+}

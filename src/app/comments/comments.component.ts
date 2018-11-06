@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
 import {CommentsService} from '../_services/comments.service';
 import {catchError, map} from 'rxjs/internal/operators';
 import {throwError} from 'rxjs';
+import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
 
 @Component({
   selector: 'app-comments',
@@ -18,7 +19,7 @@ export class CommentsComponent implements OnInit {
   comments: any[];
   newComment: string;
 
-  constructor(private service: CommentsService, private change: ChangeDetectorRef) {
+  constructor(private service: CommentsService, private change: ChangeDetectorRef, private eventFlowService: EventFlowService) {
   }
 
   ngOnInit() {
@@ -63,5 +64,14 @@ export class CommentsComponent implements OnInit {
       }
       this.change.detectChanges();
     });
+
+    const event: FlowEvent = {
+      source: this.pageName + ' : Comment',
+      content: comment,
+      priority: 0,
+      timestamp: now,
+      username: window.localStorage.getItem('user')
+    };
+    this.eventFlowService.addEventToFlow(event).subscribe();
   }
 }

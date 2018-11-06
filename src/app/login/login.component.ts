@@ -29,7 +29,10 @@ export class LoginComponent implements OnInit {
       pass: crypto.SHA256(this.loginPass).toString(crypto.enc.Hex)
     };
     this.http.get('login', {headers: headers}).pipe(
-      map((res) => window.localStorage.setItem('credentials', res['basic'])),
+      map((res) => {
+        window.localStorage.setItem('credentials', res['basic']);
+        window.localStorage.setItem('user', this.loginName);
+      }),
       catchError((response: any) => this.handleError(response))
     ).subscribe();
   }
@@ -37,7 +40,7 @@ export class LoginComponent implements OnInit {
   register(username: string, password: string): void {
     const body = {
       userName: username,
-      password: btoa(password)
+      password: crypto.SHA256(password).toString(crypto.enc.Hex)
     };
     const httpOptions = {
       headers: new HttpHeaders({
@@ -47,7 +50,13 @@ export class LoginComponent implements OnInit {
     };
 
     this.http.post('register', body, httpOptions)
-      .pipe(catchError((response: any) => this.handleError(response))).subscribe();
+      .pipe(
+        map(res => {
+          window.localStorage.setItem('credentials', res['basic']);
+          window.localStorage.setItem('user', this.loginName);
+        }),
+        catchError((response: any) => this.handleError(response)))
+      .subscribe();
   }
 
   private handleError(error: Response | any) {

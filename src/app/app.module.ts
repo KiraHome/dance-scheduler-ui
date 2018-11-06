@@ -22,6 +22,7 @@ import {DateTimeFormatterPipe} from './_pipes/date-time-formatter.pipe';
 import {BaseUrlInterceptor} from './_config/base-url-interceptor';
 import {YoutubePlayerModule} from 'ngx-youtube-player';
 import {BasicAuthInterceptor} from './_config/basic-auth-interceptor';
+import { EventFlowComponent } from './event-flow/event-flow.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import {BasicAuthInterceptor} from './_config/basic-auth-interceptor';
     AlternativeCalendarComponent,
     VideoEmbedderComponent,
     CommentsComponent,
-    DateTimeFormatterPipe
+    DateTimeFormatterPipe,
+    EventFlowComponent
   ],
   imports: [
     BrowserModule,

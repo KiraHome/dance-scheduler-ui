@@ -1,0 +1,12 @@
+<div *ngFor="let event of eventFlow" class="wrapper"
+     [ngClass]="getColourClass(event.priority)">
+  <div class="row">
+    <div class="header col-6">{{event.timestamp | dateTimeFormatter}}</div>
+    <div class="user col-6">
+      <p class="username">{{event.username}}</p>
+    </div>
+  </div>
+  <div *ngIf="event.priority === 0" class="content">{{event.content + ' on ' + event.source}}</div>
+  <div *ngIf="event.priority === 1" class="content">{{getContentOfPersonalClass(event)}}</div>
+  <div *ngIf="event.priority === 2" class="content">{{event.content + ' on ' + event.source}}</div>
+</div>

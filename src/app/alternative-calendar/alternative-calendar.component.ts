@@ -6,6 +6,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Observable, Subject, throwError} from 'rxjs';
 import {PersonalClassService} from '../_services/personal-class.service';
 import {catchError, map} from 'rxjs/internal/operators';
+import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
 
 @Component({
   selector: 'app-alternative-calendar',
@@ -57,7 +58,7 @@ export class AlternativeCalendarComponent implements OnInit {
   events: any[];
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
-              private personalClassService: PersonalClassService) {
+              private personalClassService: PersonalClassService, private eventFlowService: EventFlowService) {
   }
 
   addNewEvent(content): void {
@@ -102,6 +103,7 @@ export class AlternativeCalendarComponent implements OnInit {
       this.events = this.events.filter(iEvent => iEvent !== event);
       this.newEvents = this.newEvents.filter(iEvent => iEvent !== event);
       this.originalEvents = this.events.slice();
+      this.saveToEventFlow(event, 'Delete Class');
     }), catchError(err => this.handleHttpError(err))).subscribe();
   }
 
@@ -177,8 +179,21 @@ export class AlternativeCalendarComponent implements OnInit {
       this.personalClassService.savePersonalClassEvent(event).pipe(map((result) => {
         this.newEvents.splice(this.newEvents.indexOf(event), 1);
         this.events[this.events.indexOf(event)].serial_id = result.serial_id;
+
+        this.saveToEventFlow(event, 'New Class');
       }), catchError(err => this.handleHttpError(err))).subscribe();
     });
+  }
+
+  private saveToEventFlow(eventObject, method): void {
+    const event: FlowEvent = {
+      source: 'Personal Class : ' + method,
+      content: eventObject,
+      priority: 1,
+      timestamp: new Date(),
+      username: window.localStorage.getItem('user')
+    };
+    this.eventFlowService.addEventToFlow(event).subscribe();
   }
 
   private handleHttpError(error: Response | any): Observable<any> {
