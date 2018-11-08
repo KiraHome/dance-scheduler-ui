@@ -124,11 +124,6 @@ export class AlternativeCalendarComponent implements OnInit {
     this.viewDate = date;
   }
 
-
-  eventClicked({event}: { event: CalendarEvent }): void {
-    console.log('Event clicked', event);
-  }
-
   validateModal(): boolean {
     return this.who && this.whom.id && this.isValidTime;
   }

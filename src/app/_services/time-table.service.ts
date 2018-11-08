@@ -13,4 +13,12 @@ export class TimeTableService {
   getTimeTableData(): Observable<any> {
     return this.http.get('time-table');
   }
+
+  saveTimeTableEvent(event: any): Observable<any> {
+    return this.http.put('time-table', event);
+  }
+
+  deleteTimeTableEvent(event: any): Observable<any> {
+    return this.http.delete('time-table/' + event.serial_id);
+  }
 }

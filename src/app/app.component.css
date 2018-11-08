@@ -33,17 +33,16 @@
 }
 
 .image {
-  opacity: 0.5;
+  opacity: 0.7;
   width: 67%;
-  height: 67%;
+  height: 947px;
+  overflow-y: auto;
 }
 
 .event-flow {
-  max-height: 66%;
-  overflow-y: auto;
-  position: absolute;
-  left: 0;
-  top: 30%;
+  max-height: 127%;
+  left: 16%;
+  top: 10%;
   z-index: 2;
   opacity: 0.8;
 }

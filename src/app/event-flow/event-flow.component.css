@@ -11,14 +11,15 @@
 }
 
 .blue {
-  background-color: rgb(193, 142, 218);
+  background-color: rgb(135, 206, 250);
 }
 
 .green {
-  background-color: rgb(254, 249, 226);
+  background-color: rgb(106, 90, 205);
+  color: lightcyan;
 }
 
 .red {
-  background-color: rgb(141, 2, 31);
+  background-color: rgb(25, 25, 112);
   color: white;
 }

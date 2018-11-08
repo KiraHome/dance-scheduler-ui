@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ShareButtons} from '@ngx-share/core';
-import {throwError} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map} from 'rxjs/internal/operators';
 import * as crypto from 'crypto-js';
