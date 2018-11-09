@@ -1,5 +1,9 @@
 import {Component, Input, OnInit} from '@angular/core';
 import * as moment from '../../../node_modules/moment/';
+import {PaymentService} from '../_services/payment.service';
+import {map} from 'rxjs/internal/operators';
+import {addMonths, addYears, startOfMonth, startOfYear, subYears} from 'date-fns';
+import {el} from '@angular/platform-browser/testing/src/browser_util';
 
 @Component({
   selector: 'app-payments',
@@ -12,22 +16,48 @@ export class PaymentsComponent implements OnInit {
 
   day: any;
 
-  dates = this.enumerateDates(new Date('2018-10-01'), new Date('2019-06-01'));
-  paymentTable = [
-    ['Dansator #1', true, true, false, false, false, false, false, false],
-    ['Dansator #2', true, false, false, false, false, false, false, false],
-    ['Dansator #3', true, true, false, false, false, false, false, false],
-    ['Dansator #4', false, false, false, false, false, false, false, false]
-  ];
+  dates = this.enumerateDates(addMonths(this.actualSchoolYear(), 9), addMonths(addYears(this.actualSchoolYear(), 1), 6));
+  paymentTable = [[]];
   paymentTablePersonal = [];
 
-  constructor() {
+  constructor(private paymentService: PaymentService) {
   }
 
   ngOnInit() {
+    this.paymentService.getPaymentTable().pipe(map(
+      (res: any[]) => {
+        res.forEach((element, index) => {
+          const lastPaid = new Date(element.lastpaid);
+          let paidMonthes = 0;
+          if (lastPaid.getFullYear() > 2018) {
+            paidMonthes = lastPaid.getMonth() + 4;
+          } else {
+            paidMonthes = lastPaid.getMonth() + 1;
+          }
+
+          paidMonthes -= 10;
+
+          this.paymentTable[index][0] = element.username;
+          for (let i = 1; i < 10; ++i) {
+            if (i < paidMonthes) {
+              this.paymentTable[index].push(true);
+            } else {
+              this.paymentTable[index].push(false);
+            }
+          }
+        });
+      }
+    )).subscribe();
   }
 
-  enumerateDates(startDate, endDate) {
+  actualSchoolYear(): number {
+    if (new Date().getMonth() <= 6) {
+      return new Date().getFullYear() - 1;
+    }
+    return new Date().getFullYear();
+  }
+
+  enumerateDates(startDate, endDate): string[] {
     const dates = [moment(startDate).add(1, 'day').toDate()];
 
     const currDate = moment(startDate).startOf('month').add(1, 'day');
