@@ -10,6 +10,16 @@
   float: right;
 }
 
+.content {
+  margin: 1%;
+}
+
+.user-image {
+  float: right;
+  height: 36px;
+  border-radius: 18px;
+}
+
 .blue {
   background-color: rgb(135, 206, 250);
 }

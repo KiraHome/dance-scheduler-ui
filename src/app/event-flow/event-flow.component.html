@@ -3,7 +3,8 @@
   <div class="row">
     <div class="header col-6">{{event.timestamp | dateTimeFormatter}}</div>
     <div class="user col-6">
-      <p class="username">{{event.username}}</p>
+      <p *ngIf="!getProfileImage(event.username)" class="username">{{event.username}}</p>
+      <img *ngIf="getProfileImage(event.username)" [src]="getProfileImage(event.username)" class="user-image">
     </div>
   </div>
   <div *ngIf="event.priority === 0" class="content">{{event.content + ' on ' + event.source}}</div>

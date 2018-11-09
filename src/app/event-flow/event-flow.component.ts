@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
 import {DateTimeFormatterPipe} from '../_pipes/date-time-formatter.pipe';
 import {addMonths} from 'date-fns';
+import {AuthService} from '../_services/auth.service';
+import {map} from 'rxjs/internal/operators';
 
 @Component({
   selector: 'app-event-flow',
@@ -10,6 +12,7 @@ import {addMonths} from 'date-fns';
 })
 export class EventFlowComponent implements OnInit {
   eventFlow: FlowEvent[];
+  fbIcons: any[];
 
   eventComparators = {
     compareDate: function (a, b) {
@@ -38,7 +41,7 @@ export class EventFlowComponent implements OnInit {
     }
   };
 
-  constructor(private eventFlowService: EventFlowService) {
+  constructor(private eventFlowService: EventFlowService, private authService: AuthService) {
   }
 
   getColourClass(priority: number): string {
@@ -63,11 +66,32 @@ export class EventFlowComponent implements OnInit {
     return eventObject.event + ' ' + new DateTimeFormatterPipe().transform(eventObject.date) + '-kor';
   }
 
+  getProfileImage(username: string): string {
+    const user = this.fbIcons.filter(icon => icon.username === username && icon.fb_id);
+    if (user.length > 0) {
+      return 'https://graph.facebook.com/' + user[0].fb_id + '/picture?type=normal';
+    }
+    return '';
+  }
+
   ngOnInit() {
+    this.fbIcons = [];
+
     this.eventFlowService.getEventFlow()
       .subscribe(res => this.eventFlow =
         res
           .filter(event => addMonths(event.timestamp, 1) >= new Date())
           .sort(this.eventComparators.compareDate).sort(this.eventComparators.comparePrior));
+
+    this.authService.getFbIds().pipe(map(
+      (res: any[]) => {
+        res.forEach(element => {
+          this.fbIcons.push({
+            username: element.username,
+            fb_id: element.fb_id
+          });
+        });
+      }
+    )).subscribe();
   }
 }

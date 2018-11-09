@@ -5,6 +5,11 @@
   border: 1px gainsboro;
   overflow-x: hidden;
   overflow-y: auto;
+  padding-right: 5px;
+}
+
+.comment-field:hover {
+  padding-right: 0;
 }
 
 .comment-element {
