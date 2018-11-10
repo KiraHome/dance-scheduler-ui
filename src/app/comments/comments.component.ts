@@ -3,6 +3,7 @@ import {CommentsService} from '../_services/comments.service';
 import {catchError, map} from 'rxjs/internal/operators';
 import {throwError} from 'rxjs';
 import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
+import {PerfectScrollbarConfigInterface} from 'ngx-perfect-scrollbar';
 
 @Component({
   selector: 'app-comments',
@@ -18,6 +19,7 @@ export class CommentsComponent implements OnInit {
 
   comments: any[];
   newComment: string;
+
 
   constructor(private service: CommentsService, private change: ChangeDetectorRef, private eventFlowService: EventFlowService) {
   }

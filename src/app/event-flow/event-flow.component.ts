@@ -34,9 +34,9 @@ export class EventFlowComponent implements OnInit {
       const aDate = new Date(JSON.parse(a.content).date);
       const now = new Date();
       if (aDate > now) {
-        return 1;
-      } else {
         return -1;
+      } else {
+        return 1;
       }
     }
   };
@@ -58,12 +58,13 @@ export class EventFlowComponent implements OnInit {
     const title = JSON.parse(event.content).title;
     const start = JSON.parse(event.content).start;
     return title + ' ' + new DateTimeFormatterPipe().transform(start) + '-kor'
-      + (event.source.split(':')[1].trim() === 'Delete Class' ? ' törölve' : '');
+      + (event.source.split(':')[1].trim() === 'Delete Class' ? ' TÖRÖLVE' : '');
   }
 
-  getPriorityContent(event): string {
+  getPriorityContent(event, source): string {
     const eventObject = JSON.parse(event);
-    return eventObject.event + ' ' + new DateTimeFormatterPipe().transform(eventObject.date) + '-kor';
+    return eventObject.event + ' ' + new DateTimeFormatterPipe().transform(eventObject.date) + '-kor'
+      + (source.split(':')[1].trim() === 'Remove Class' ? ' TÖRÖLVE' : '');
   }
 
   getProfileImage(username: string): string {

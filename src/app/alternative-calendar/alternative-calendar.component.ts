@@ -7,6 +7,7 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {PersonalClassService} from '../_services/personal-class.service';
 import {catchError, map} from 'rxjs/internal/operators';
 import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
+import {NameReversePipe} from '../_pipes/name-reverse.pipe';
 
 @Component({
   selector: 'app-alternative-calendar',
@@ -222,7 +223,7 @@ export class AlternativeCalendarComponent implements OnInit {
     this.fbLoggedIn = false;
     if (window.localStorage.getItem('user')) {
       this.fbLoggedIn = true;
-      this.who = window.localStorage.getItem('user');
+      this.who = new NameReversePipe().transform(window.localStorage.getItem('user'));
     }
 
     this.getEvents();

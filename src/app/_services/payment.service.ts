@@ -13,4 +13,8 @@ export class PaymentService {
   getPaymentTable(): Observable<any> {
     return this.http.get('payment');
   }
+
+  setPayment(payment: { username: any; lastPaid: Date }): Observable<any> {
+    return this.http.put('payment', payment);
+  }
 }

@@ -22,7 +22,8 @@ export class EventFlowService {
     return this.http.get('event-flow');
   }
 
-  addEventToFlow(event: FlowEvent): Observable<any> {
+  addEventToFlow(event: any): Observable<any> {
+    event.timestamp = event.timestamp.toString().split('GMT')[0] + 'UTC';
     return this.http.post('event-flow', event);
   }
 }

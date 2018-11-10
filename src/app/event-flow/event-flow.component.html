@@ -9,5 +9,5 @@
   </div>
   <div *ngIf="event.priority === 0" class="content">{{event.content + ' on ' + event.source}}</div>
   <div *ngIf="event.priority === 1" class="content">{{getContentOfPersonalClass(event)}}</div>
-  <div *ngIf="event.priority === 2" class="content">{{getPriorityContent(event.content)}}</div>
+  <div *ngIf="event.priority === 2" class="content">{{getPriorityContent(event.content, event.source)}}</div>
 </div>

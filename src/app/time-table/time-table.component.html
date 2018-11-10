@@ -47,14 +47,14 @@
     </div>
 
     <div class="modal-body row">
-      <div *ngIf="isAddNewEvent">
+      <div *ngIf="isAddNewEvent" class="modal-inputs">
         <b>Esemény neve: </b>
         <div>
-          <input type="text" class="form-group" [(ngModel)]="eventTitle">
+          <input type="text" class="form-control" [(ngModel)]="eventTitle">
         </div>
         <b>Esemény hossza órákban: </b>
         <div>
-          <input type="number" class="form-group" [(ngModel)]="eventLength">
+          <input type="number" class="form-control" [(ngModel)]="eventLength">
           <div class="small form-text text-danger" *ngIf="!isValid()">
             <div *ngIf="ctrl.errors['tooMuch']">Az esemény hosszabb, mint egy nap</div>
             <div *ngIf="ctrl.errors['nonPositive']">A megadott nagyobb kell legyen, mint 0</div>
@@ -62,13 +62,15 @@
         </div>
       </div>
 
-      <div *ngIf="!isAddNewEvent">
+      <div *ngIf="!isAddNewEvent" class="modal-text">
         <b>Biztosan törlöd az eseményt {{actEvent.title}} ?</b>
       </div>
     </div>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-outline-dark" (click)="modal.close(dp)">Mentés</button>
+      <button type="button" class="btn btn-dark" (click)="modal.close(dp)">
+        {{isAddNewEvent ? 'Mentés' : 'Törlés'}}
+      </button>
     </div>
   </ng-template>
 </div>

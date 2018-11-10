@@ -33,3 +33,15 @@
 .wrapper {
   margin-right: 2px;
 }
+
+.modal-text {
+  margin-left: 10px;
+  font-weight: 700;
+}
+
+.modal-inputs {
+  margin-left: 20px;
+}
+.modal-inputs input {
+  border-radius: 5px;
+}

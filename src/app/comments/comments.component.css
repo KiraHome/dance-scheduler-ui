@@ -8,10 +8,6 @@
   padding-right: 5px;
 }
 
-.comment-field:hover {
-  padding-right: 0;
-}
-
 .comment-element {
   float: left;
   width: 80%;
@@ -24,6 +20,7 @@
 .comment-element pre {
   margin-top: 10px;
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .comment-element i {

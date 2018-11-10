@@ -34,14 +34,10 @@
 
 .event-flow-wrapper {
   opacity: 0.7;
-  width: 67%;
+  width: 70%;
   height: 947px;
   overflow-y: auto;
   padding-right: 5px;
-}
-
-.event-flow-wrapper:hover {
-  padding-right: 0;
 }
 
 .event-flow {

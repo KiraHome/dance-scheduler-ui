@@ -15,10 +15,10 @@
           <tbody>
           <tr *ngFor="let payed of paymentTable; index as i">
             <th scope="row">{{i + 1}}</th>
-            <td *ngFor="let d of payed">
-              <img *ngIf="d === true" src="../../assets/checkmark.svg" class="payment-status">
-              <img *ngIf="!d" src="../../assets/black_x.svg" class="payment-status">
-              <i *ngIf="d !== true && d !== false">{{d}}</i>
+            <td *ngFor="let d of payed; index as dateIndex">
+              <img *ngIf="d === true" src="../../assets/checkmark.svg" class="payment-status" (click)="decreasePaymentDate(payed[0])">
+              <img *ngIf="!d" src="../../assets/black_x.svg" class="payment-status" (click)="paymentDone(payed[0], dateIndex - 1)">
+              <i *ngIf="d !== true && d !== false">{{d | nameReverse}}</i>
             </td>
           </tr>
           </tbody>

@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import * as moment from '../../../node_modules/moment/';
 import {PaymentService} from '../_services/payment.service';
 import {map} from 'rxjs/internal/operators';
-import {addMonths, addYears, startOfMonth, startOfYear, subYears} from 'date-fns';
-import {el} from '@angular/platform-browser/testing/src/browser_util';
+import {addMonths, addYears, subMonths} from 'date-fns';
+import {AuthService} from '../_services/auth.service';
 
 @Component({
   selector: 'app-payments',
@@ -16,11 +16,13 @@ export class PaymentsComponent implements OnInit {
 
   day: any;
 
-  dates = this.enumerateDates(addMonths(this.actualSchoolYear(), 9), addMonths(addYears(this.actualSchoolYear(), 1), 6));
-  paymentTable = [[]];
+  dates = this.enumerateDates(
+    addMonths(addYears(new Date(), this.actualSchoolYear() - 1), 10),
+    addMonths(addYears(new Date(), this.actualSchoolYear()), 8));
+  paymentTable = [];
   paymentTablePersonal = [];
 
-  constructor(private paymentService: PaymentService) {
+  constructor(private paymentService: PaymentService, private authService: AuthService) {
   }
 
   ngOnInit() {
@@ -32,29 +34,87 @@ export class PaymentsComponent implements OnInit {
           if (lastPaid.getFullYear() > 2018) {
             paidMonthes = lastPaid.getMonth() + 4;
           } else {
-            paidMonthes = lastPaid.getMonth() + 1;
+            paidMonthes = lastPaid.getMonth() - 8;
           }
 
-          paidMonthes -= 10;
-
+          this.paymentTable[index] = [];
           this.paymentTable[index][0] = element.username;
-          for (let i = 1; i < 10; ++i) {
-            if (i < paidMonthes) {
+          for (let i = 1; i < 11; ++i) {
+            if (i - 1 <= paidMonthes) {
               this.paymentTable[index].push(true);
             } else {
               this.paymentTable[index].push(false);
             }
           }
         });
+
+        function paymentComparator(a: any[], b: any[]): number {
+          const splitA = a[0].split(' ');
+          const splitB = b[0].split(' ');
+          const lastA = splitA[splitA.length - 1];
+          const lastB = splitB[splitB.length - 1];
+
+          if (lastA < lastB) {
+            return -1;
+          }
+          if (lastA > lastB) {
+            return 1;
+          }
+          return 0;
+        }
+
+        this.paymentTable.sort(paymentComparator);
       }
     )).subscribe();
   }
 
   actualSchoolYear(): number {
     if (new Date().getMonth() <= 6) {
-      return new Date().getFullYear() - 1;
+      return -1;
     }
-    return new Date().getFullYear();
+    return 0;
+  }
+
+  paymentDone(d, index): void {
+    const payment = {
+      username: d,
+      lastPaid: new Date(this.dates[index] + ' 10:00')
+    };
+
+    this.authService.isAdminLoggedIn().pipe(map(
+      () => {
+        this.paymentService.setPayment(payment).pipe(map(
+          () => {
+            if (this.paymentTable.filter(user => user[0] === payment.username)[0][index] !== false) {
+              this.paymentTable.filter(user => user[0] === payment.username)[0][index + 1] = true;
+            }
+          }
+        )).subscribe();
+      }
+    )).subscribe();
+  }
+
+  decreasePaymentDate(d): void {
+    const payment = {
+      username: d,
+      lastPaid: null
+    };
+
+    this.authService.isAdminLoggedIn().pipe(map(
+      () => {
+        this.paymentService.getPaymentTable().pipe(map(
+          (res: any[]) => {
+            const lastPaid = new Date(res.filter(element => element.username === payment.username)[0].lastpaid);
+            payment.lastPaid = subMonths(lastPaid, 1);
+            this.paymentService.setPayment(payment).pipe(map(
+              () => {
+                this.ngOnInit();
+              }
+            )).subscribe();
+          }
+        )).subscribe();
+      }
+    )).subscribe();
   }
 
   enumerateDates(startDate, endDate): string[] {

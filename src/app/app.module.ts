@@ -7,7 +7,6 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './login/login.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import {ShareButtonModule} from '@ngx-share/button';
 import {TimeTableComponent} from './time-table/time-table.component';
 import {PaymentsComponent} from './payments/payments.component';
 import {AlternativeCalendarComponent} from './alternative-calendar/alternative-calendar.component';
@@ -24,6 +23,7 @@ import {YoutubePlayerModule} from 'ngx-youtube-player';
 import {BasicAuthInterceptor} from './_config/basic-auth-interceptor';
 import {EventFlowComponent} from './event-flow/event-flow.component';
 import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angular-6-social-login';
+import {NameReversePipe} from './_pipes/name-reverse.pipe';
 
 
 export function getAuthServiceConfigs() {
@@ -46,6 +46,7 @@ export function getAuthServiceConfigs() {
     VideoEmbedderComponent,
     CommentsComponent,
     DateTimeFormatterPipe,
+    NameReversePipe,
     EventFlowComponent
   ],
   imports: [
@@ -54,7 +55,6 @@ export function getAuthServiceConfigs() {
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    ShareButtonModule.forRoot(),
     SocialLoginModule,
     CommonModule,
     HttpModule,
@@ -68,7 +68,7 @@ export function getAuthServiceConfigs() {
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: BasicAuthInterceptor, multi: true},
     {provide: MOMENT, useValue: moment},
-    {provide: AuthServiceConfig, useFactory: getAuthServiceConfigs}
+    {provide: AuthServiceConfig, useFactory: getAuthServiceConfigs},
   ],
   bootstrap: [AppComponent]
 })

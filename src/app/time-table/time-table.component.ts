@@ -8,6 +8,7 @@ import {CustomEventTitleFormatter} from '../utils/custom-event-title-formatter';
 import {TimeTableService} from '../_services/time-table.service';
 import {map} from 'rxjs/internal/operators';
 import {AuthService} from '../_services/auth.service';
+import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
 
 @Component({
   selector: 'app-time-table',
@@ -45,7 +46,8 @@ export class TimeTableComponent implements OnInit {
   actEvent: any;
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
-              private timeTableService: TimeTableService, private authService: AuthService) {
+              private timeTableService: TimeTableService, private authService: AuthService,
+              private eventFlowService: EventFlowService) {
   }
 
   increment(): void {
@@ -110,15 +112,10 @@ export class TimeTableComponent implements OnInit {
                     this.events.push.apply(this.events, this.tempRemovedEvents);
                     this.tempRemovedEvents = [];
                     this.tempRemoveCollidingEvents();
+                    this.saveToEventFlow($event.event, 'Remove Class');
                     this.refresh.next();
                   }
                 )).subscribe();
-              } else {
-                this.events.splice(this.events.indexOf($event.event), 1);
-                this.events.push.apply(this.events, this.tempRemovedEvents);
-                this.tempRemovedEvents = [];
-                this.tempRemoveCollidingEvents();
-                this.refresh.next();
               }
             });
         }
@@ -167,18 +164,37 @@ export class TimeTableComponent implements OnInit {
               color: {primary: 'rgb(25, 25, 112)', secondary: 'rgb(25, 25, 200)'},
               id: this.eventTitle + Math.random(),
               cssClass: 'special-event',
-              recurring: false
+              recurring: false,
+              serial_id: null
             };
 
             this.timeTableService.saveTimeTableEvent(event).pipe(map(
-              () => {
+              (res) => {
+                event.serial_id = res.serial_id;
+                this.saveToEventFlow(event, 'New Class');
                 this.events.push(event);
+                this.tempRemoveCollidingEvents();
                 this.refresh.next();
               }
             )).subscribe();
           });
       }
     )).subscribe();
+  }
+
+  private saveToEventFlow(event, method): void {
+    const eventObject = {
+      event: event.title,
+      date: new Date()
+    };
+    const flowEvent: any = {
+      source: 'Personal Class : ' + method,
+      content: eventObject,
+      priority: 2,
+      timestamp: new Date(),
+      username: window.localStorage.getItem('user')
+    };
+    this.eventFlowService.addEventToFlow(flowEvent).subscribe();
   }
 
   private mapEventValuesToUI(result): void {
