@@ -1,0 +1,44 @@
+<div class="carousel-wrapper">
+  <ngx-hm-carousel
+    [(ngModel)]="index"
+    [autoplay-speed]="3000"
+    [autoplay]="autoPlay"
+    [infinite]="infinite"
+    [between-delay]="2000"
+    [align]="'center'"
+    [mourseEnable]="mourseOver"
+    class="carousel c-accent">
+
+    <section ngx-hm-carousel-container class="content">
+      <article class="item cursor-pointer"
+               ngx-hm-carousel-item
+               *ngFor="let avatar of avatars">
+        <img class="img" [ngClass]="isImageLandscape() ? 'landscape' : 'portrait'"
+             [src]="avatar.url">
+      </article>
+    </section>
+
+    <ng-template #carouselPrev>
+      <div class="click-area">
+        <i class="material-icons">keyboard_arrow_left</i>
+      </div>
+    </ng-template>
+    <ng-template #carouselNext>
+      <div class="click-area">
+        <i class="material-icons">keyboard_arrow_right</i>
+      </div>
+    </ng-template>
+
+    <ng-template #carouselDot let-model>
+      <div class="ball bg-accent"
+           [class.visible]="model.index === model.currentIndex"></div>
+    </ng-template>
+
+    <ng-template #carouselProgress let-progress>
+      <div class="progress" *ngIf="progress > 0"
+           [style.width]="(direction==='right' ? progress : 100 - progress) + '%'"></div>
+    </ng-template>
+
+  </ngx-hm-carousel>
+  <button class="autoplay-button" (click)="toggleAutoPlay()">Automatikus Lejájtszás</button>
+</div>

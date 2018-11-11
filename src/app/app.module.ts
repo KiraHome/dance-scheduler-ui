@@ -1,5 +1,5 @@
 import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
+import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -24,16 +24,17 @@ import {BasicAuthInterceptor} from './_config/basic-auth-interceptor';
 import {EventFlowComponent} from './event-flow/event-flow.component';
 import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angular-6-social-login';
 import {NameReversePipe} from './_pipes/name-reverse.pipe';
+import {GalleryComponent} from './gallery/gallery.component';
+import {NgxHmCarouselModule} from 'ngx-hm-carousel';
 
 
 export function getAuthServiceConfigs() {
-  const config = new AuthServiceConfig(
+  return new AuthServiceConfig(
     [{
       id: FacebookLoginProvider.PROVIDER_ID,
       provider: new FacebookLoginProvider('1771148716341703')
     }]
   );
-  return config;
 }
 
 @NgModule({
@@ -47,7 +48,8 @@ export function getAuthServiceConfigs() {
     CommentsComponent,
     DateTimeFormatterPipe,
     NameReversePipe,
-    EventFlowComponent
+    EventFlowComponent,
+    GalleryComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ export function getAuthServiceConfigs() {
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
-    })
+    }),
+    NgxHmCarouselModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: BaseUrlInterceptor, multi: true},
@@ -70,7 +73,8 @@ export function getAuthServiceConfigs() {
     {provide: MOMENT, useValue: moment},
     {provide: AuthServiceConfig, useFactory: getAuthServiceConfigs},
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [NO_ERRORS_SCHEMA]
 })
 export class AppModule {
 }
