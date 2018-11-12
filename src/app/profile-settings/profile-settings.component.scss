@@ -1,0 +1,79 @@
+.settings-wrapper {
+  height: 800px;
+}
+
+.main-frame {
+  margin: 10px;
+}
+
+.save-button {
+  float: right;
+  margin: 10px 20px 10px 10px;
+}
+
+.fb-icon {
+  width: 32px;
+  margin-right: 12px;
+  padding-bottom: 6px;
+}
+
+.fb-button {
+  background-color: #3b5998;
+  border-width: 0;
+  border-radius: 5px;
+  height: 38px;
+  color: white;
+  font-weight: 700;
+  padding-right: 21px;
+  margin-top: 43px;
+}
+.fb-button:disabled {
+  background-color: #666666;
+}
+
+.disabled-icon {
+  visibility: hidden;
+}
+
+.invalid-input {
+  color: #ff8080;
+  margin-top: 50px;
+  margin-left: 10px;
+}
+
+.profile-settings {
+  margin: 10px 10px 10px 30px;
+  border-radius: 10px;
+  border: 2px solid #808080b5;
+  background-color: aliceblue;
+  padding: 5px;
+}
+
+.inputs {
+  margin-left: 10px;
+}
+
+label {
+  margin-right: 10px;
+  margin-top: 20px;
+  font-weight: 700;
+}
+
+i {
+  font-weight: 500;
+}
+
+.close-button {
+  float: right;
+  height: 20px;
+  opacity: 0.75;
+}
+.close-button:hover {
+  opacity: 1;
+}
+
+.checkmark-icon {
+  height: 25px;
+  margin-top: 50px;
+  margin-left: 59%;
+}

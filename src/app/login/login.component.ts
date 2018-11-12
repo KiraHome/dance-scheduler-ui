@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {ShareButtons} from '@ngx-share/core';
-import {Observable, throwError} from 'rxjs';
+import {throwError} from 'rxjs';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {catchError, map} from 'rxjs/internal/operators';
 import * as crypto from 'crypto-js';
@@ -17,7 +16,7 @@ export class LoginComponent implements OnInit {
   loginName: string;
   loginPass: string;
 
-  constructor(public share: ShareButtons, private http: HttpClient, private socialAuthService: AuthService) {
+  constructor(private http: HttpClient, private socialAuthService: AuthService) {
   }
 
   ngOnInit() {
@@ -44,8 +43,7 @@ export class LoginComponent implements OnInit {
 
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
-        console.log('facebook sign in data : ', userData);
-        window.localStorage.setItem('userPicUrl', 'https://graph.facebook.com/2229075060496563/picture?type=normal');
+        window.localStorage.setItem('userId', userData.id);
         this.http.post('login/facebook', userData)
           .pipe(
             map(res => {

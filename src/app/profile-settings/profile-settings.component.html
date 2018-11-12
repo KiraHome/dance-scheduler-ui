@@ -1,0 +1,22 @@
+<div class="settings-wrapper">
+  <div class="main-frame">
+    <div>
+      <b>Fiókbeállítások</b>
+      <img src="../../assets/close.svg" class="close-button" (click)="closeSettings()">
+    </div>
+    <div class="profile-settings">
+      <i>Meglévő fiók összekapcsolása a Facebook fiókkal</i>
+      <div class="row inputs">
+        <label>Felhasználónév<input class="form-control" type="text" [(ngModel)]="username"></label>
+        <label>Jelszó<input class="form-control" type="password" [(ngModel)]="userpass"></label>
+        <button class="fb-button" (click)="socialSignIn()" [disabled]="isFbButtonDisabled()">
+          <img class="fb-icon" src="../../assets/fb-icon.png" ngClass="{{isFbButtonDisabled() ? 'disabled-icon' : ''}}">
+          Bejelentkezés Facebook-al
+        </button>
+        <div *ngIf="isFbButtonDisabled()" class="invalid-input">*Név és jelszó megadása kötelező</div>
+        <img src="../../assets/checkmark.svg" class="checkmark-icon" *ngIf="isFbLoggedIn">
+      </div>
+    </div>
+  </div>
+  <button class="btn btn-dark save-button" (click)="settingsSave()">Beállítások Mentése</button>
+</div>

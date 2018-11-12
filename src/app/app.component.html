@@ -1,6 +1,6 @@
 <app-login *ngIf="!isLoggedIn()"></app-login>
 
-<div class="main-page" *ngIf="isLoggedIn()">
+<div class="main-page" *ngIf="isLoggedIn() && !isShowPersonalSettings">
 
   <div class="header-line row">
     <div class="col-1">
@@ -54,7 +54,16 @@
       </ngb-tabset>
     </div>
     <div class="col-1">
-      <button class="btn btn-dark logoutButton" (click)="logout()">Logout</button>
+      <div class="row">
+        <img id="settings-icon" src="../assets/settings2.svg" (click)="openPersonalSettings()">
+        <button class="btn btn-dark logoutButton" (click)="logout()">Logout</button>
+      </div>
     </div>
   </div>
 </div>
+
+<app-profile-settings class="main-page"
+                      *ngIf="isShowPersonalSettings"
+                      (optionsSaved)="optionsSaved($event)"
+></app-profile-settings>
+

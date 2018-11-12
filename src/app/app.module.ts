@@ -26,6 +26,7 @@ import {AuthServiceConfig, FacebookLoginProvider, SocialLoginModule} from 'angul
 import {NameReversePipe} from './_pipes/name-reverse.pipe';
 import {GalleryComponent} from './gallery/gallery.component';
 import {NgxHmCarouselModule} from 'ngx-hm-carousel';
+import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
 
 
 export function getAuthServiceConfigs() {
@@ -49,7 +50,8 @@ export function getAuthServiceConfigs() {
     DateTimeFormatterPipe,
     NameReversePipe,
     EventFlowComponent,
-    GalleryComponent
+    GalleryComponent,
+    ProfileSettingsComponent
   ],
   imports: [
     BrowserModule,

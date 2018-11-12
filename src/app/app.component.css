@@ -35,9 +35,11 @@
 .event-flow-wrapper {
   opacity: 0.7;
   width: 70%;
-  height: 947px;
+  height: 907px;
   overflow-y: auto;
   padding-right: 5px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .event-flow {
@@ -52,4 +54,14 @@
   width: 40px;
   border-radius: 20px;
   margin-right: 12px;
+}
+
+#settings-icon {
+  margin-top: 2px;
+  margin-right: 5px;
+  height: 44px;
+  opacity: 0.75;
+}
+#settings-icon:hover {
+  opacity: 1;
 }

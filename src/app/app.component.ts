@@ -6,6 +6,8 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
+  isShowPersonalSettings: boolean;
+
   constructor() {
   }
 
@@ -17,10 +19,19 @@ export class AppComponent implements OnInit {
     window.localStorage.removeItem('credentials');
   }
 
-  getPic(): string {
-    return window.localStorage.getItem('userPicUrl');
+  ngOnInit() {
+    this.isShowPersonalSettings = false;
   }
 
-  ngOnInit() {
+  openPersonalSettings(): void {
+    this.isShowPersonalSettings = true;
+  }
+
+  closePersonalSettings(): void {
+    this.isShowPersonalSettings = false;
+  }
+
+  optionsSaved($event): void {
+    this.closePersonalSettings();
   }
 }
