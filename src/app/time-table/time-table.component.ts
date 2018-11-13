@@ -166,7 +166,7 @@ export class TimeTableComponent implements OnInit {
               start: $event.date,
               end: addHours($event.date, this.eventLength),
               title: this.eventTitle,
-              color: {primary: 'rgb(25, 25, 200)', secondary: 'rgb(25, 25, 112)'},
+              color: {primary: '#1919c8', secondary: '#191970'},
               id: this.eventTitle + Math.random(),
               cssClass: 'special-event',
               recurring: false,

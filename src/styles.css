@@ -63,3 +63,8 @@ body {
   background: #ddd !important;
   border-radius: 20px !important;
 }
+
+.special-event,
+.event-element {
+  opacity: 0.8;
+}

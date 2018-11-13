@@ -19,6 +19,7 @@ export class AlternativeCalendarComponent implements OnInit {
   @Input()
   isShow: boolean;
   viewDate: Date = new Date();
+  refresh: Subject<any> = new Subject();
 
   time: any;
   day = 0;
@@ -27,6 +28,7 @@ export class AlternativeCalendarComponent implements OnInit {
     name: 'Válassz',
     id: undefined
   };
+
   weekly: boolean;
 
   weeksAdded: number;
@@ -34,12 +36,10 @@ export class AlternativeCalendarComponent implements OnInit {
   fbLoggedIn: boolean;
 
   isValidTime: boolean;
-
   ctrl: FormControl;
   trainerFormControl: FormGroup;
-  trainer: number;
 
-  refresh: Subject<any> = new Subject();
+  trainer: number;
 
   private colourSet = [
     'rgba(0, 152, 214, 0.8)',

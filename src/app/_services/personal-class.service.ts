@@ -22,4 +22,8 @@ export class PersonalClassService {
   deletePersonalClassEvent(eventObject: any) {
     return this.http.delete('personal-class/' + eventObject.serial_id);
   }
+
+  updateLastPaid(event: any) {
+    return this.http.put('personal-class/pay', event);
+  }
 }

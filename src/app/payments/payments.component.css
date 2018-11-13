@@ -6,3 +6,14 @@
   width: 20px;
   height: 20px;
 }
+
+.calendar-content {
+  overflow: auto;
+  max-height: 541px;
+  width: 100%;
+  margin-left: 0;
+}
+
+.outter-content {
+  margin-bottom: 20px;
+}

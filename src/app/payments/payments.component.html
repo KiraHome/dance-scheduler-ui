@@ -16,8 +16,10 @@
           <tr *ngFor="let payed of paymentTable; index as i">
             <th scope="row">{{i + 1}}</th>
             <td *ngFor="let d of payed; index as dateIndex">
-              <img *ngIf="d === true" src="../../assets/checkmark.svg" class="payment-status" (click)="decreasePaymentDate(payed[0])">
-              <img *ngIf="!d" src="../../assets/black_x.svg" class="payment-status" (click)="paymentDone(payed[0], dateIndex - 1)">
+              <img *ngIf="d === true" src="../../assets/checkmark.svg" class="payment-status"
+                   (click)="decreasePaymentDate(payed[0])">
+              <img *ngIf="!d" src="../../assets/black_x.svg" class="payment-status"
+                   (click)="paymentDone(payed[0], dateIndex - 1)">
               <i *ngIf="d !== true && d !== false">{{d | nameReverse}}</i>
             </td>
           </tr>
@@ -27,7 +29,22 @@
     </ngb-tab>
     <ngb-tab title="Különóra díjak">
       <ng-template ngbTabContent>
-        <b>Különóra tartozások</b>
+        <div class="row calendar-content outter-content">
+          <mwl-calendar-month-view
+            class="calendar-content"
+            [locale]="'en'"
+            [weekStartsOn]="1"
+            precision="minutes"
+            [viewDate]="viewDate"
+            [events]="events"
+            [refresh]="refresh"
+            [dayStartHour]="7"
+            [dayEndHour]="22"
+            [hourSegments]="4"
+            (eventTimesChanged)="eventTimesChanged($event)"
+            (eventClicked)="eventClicked($event, content)">
+          </mwl-calendar-month-view>
+        </div>
       </ng-template>
     </ngb-tab>
     <ngb-tab title="Kimutatások">
@@ -36,4 +53,26 @@
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
+</div>
+
+<!--MODAL day/time pick template-->
+<div>
+  <ng-template #content let-modal id="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Különóra befizetése</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body row">
+      <div class="modal-text">
+        <b>A {{actEvent.start | dateTimeFormatter}}-kor kezdődő {{actEvent.title}} kifizetése megtörtént?</b>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="modal.close(dp)">Igen</button>
+    </div>
+  </ng-template>
 </div>
