@@ -6,6 +6,12 @@ import * as crypto from 'crypto-js';
 import {AuthService, FacebookLoginProvider} from 'angular-6-social-login';
 
 
+interface LoginData {
+  username: string;
+  userpass: string;
+  email: string;
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -19,11 +25,7 @@ export class LoginComponent implements OnInit {
 
   wasError: boolean;
 
-  data: {
-    username: string,
-    userpass: string,
-    email: string;
-  };
+  data: LoginData;
 
   constructor(private http: HttpClient, private socialAuthService: AuthService) {
   }
@@ -68,11 +70,7 @@ export class LoginComponent implements OnInit {
   }
 
   register(): void {
-    this.data = {
-      username: '',
-      userpass: '',
-      email: ''
-    };
+    this.data = null;
     this.registration = true;
   }
 

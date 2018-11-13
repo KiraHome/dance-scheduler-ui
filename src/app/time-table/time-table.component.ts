@@ -3,12 +3,20 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {addDays, addHours, addMinutes, addWeeks, startOfDay, startOfWeek} from 'date-fns';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Subject} from 'rxjs';
-import {CalendarEvent, CalendarEventTitleFormatter} from 'angular-calendar';
+import {CalendarEventTitleFormatter} from 'angular-calendar';
 import {CustomEventTitleFormatter} from '../utils/custom-event-title-formatter';
 import {TimeTableService} from '../_services/time-table.service';
 import {map} from 'rxjs/internal/operators';
 import {AuthService} from '../_services/auth.service';
-import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
+import {EventFlowService} from '../_services/event-flow.service';
+
+interface EventObject {
+  start: Date;
+  end: Date;
+  cssClass: string;
+  color: any;
+  recurring: boolean;
+}
 
 @Component({
   selector: 'app-time-table',
@@ -32,8 +40,8 @@ export class TimeTableComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
 
-  events: any[];
-  tempRemovedEvents: any;
+  events: EventObject[];
+  tempRemovedEvents: EventObject[];
   weeksAdded = 0;
 
   eventTitle: string;
@@ -230,7 +238,7 @@ export class TimeTableComponent implements OnInit {
       for (const b of this.events) {
         if (a.start.getDay() === b.start.getDay() &&
           a.start.getMonth() === b.start.getMonth() &&
-          a.start.getYear() === b.start.getYear()) {
+          a.start.getFullYear() === b.start.getFullYear()) {
           if (a.start.getTime() <= b.start.getTime() && a.end.getTime() >= b.start.getTime() && b.start.getTime() !== a.end.getTime() ||
             b.start.getTime() <= a.start.getTime() && b.end.getTime() >= a.start.getTime() && a.start.getTime() !== b.end.getTime()) {
             if (a.recurring && !b.recurring) {

@@ -21,7 +21,7 @@ export class AlternativeCalendarComponent implements OnInit {
   viewDate: Date = new Date();
   refresh: Subject<any> = new Subject();
 
-  time: any;
+  time: { hour: number, minute: number };
   day = 0;
   who: string;
   whom = {

@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 
+interface ImageObject {
+  url: string;
+  title: string;
+}
+
 @Component({
   selector: 'app-gallery',
   templateUrl: './gallery.component.html',
@@ -12,7 +17,7 @@ export class GalleryComponent implements OnInit {
   directionToggle = true;
   autoPlay = true;
   mourseOver = true;
-  avatars: any[];
+  avatars: ImageObject[];
 
   constructor() {
   }

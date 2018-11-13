@@ -5,6 +5,11 @@ import {addMonths} from 'date-fns';
 import {AuthService} from '../_services/auth.service';
 import {map} from 'rxjs/internal/operators';
 
+interface FacebookIcon {
+  username: string;
+  fb_id: string;
+}
+
 @Component({
   selector: 'app-event-flow',
   templateUrl: './event-flow.component.html',
@@ -12,7 +17,7 @@ import {map} from 'rxjs/internal/operators';
 })
 export class EventFlowComponent implements OnInit {
   eventFlow: FlowEvent[];
-  fbIcons: any[];
+  fbIcons: FacebookIcon[];
 
   eventComparators = {
     compareDate: function (a, b) {

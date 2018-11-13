@@ -9,6 +9,15 @@ import {CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {PersonalClassService} from '../_services/personal-class.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
+interface EventObject {
+  start: Date;
+  end: Date;
+  lastPaidClass: Date;
+  cssClass: string;
+  color: string;
+  recurring: boolean;
+}
+
 @Component({
   selector: 'app-payments',
   templateUrl: './payments.component.html',
@@ -20,15 +29,13 @@ export class PaymentsComponent implements OnInit {
   viewDate: Date = new Date();
   refresh: Subject<any> = new Subject();
 
-  day: any;
-
   dates = this.enumerateDates(
     addMonths(addYears(new Date(), this.actualSchoolYear() - 1), 10),
     addMonths(addYears(new Date(), this.actualSchoolYear()), 8));
   paymentTable = [];
 
-  events: any[];
-  actEvent: any;
+  events: EventObject[];
+  actEvent: EventObject;
 
   constructor(private paymentService: PaymentService, private authService: AuthService,
               private personalClassService: PersonalClassService, private modalService: NgbModal) {
