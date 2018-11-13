@@ -4,6 +4,13 @@ import {catchError, map} from 'rxjs/internal/operators';
 import {throwError} from 'rxjs';
 import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
 
+interface CommentObject {
+  name: string;
+  created_date: Date;
+  comment: string;
+  onPage: string;
+}
+
 @Component({
   selector: 'app-comments',
   templateUrl: './comments.component.html',
@@ -16,7 +23,7 @@ export class CommentsComponent implements OnInit {
   @Input()
   userName: string;
 
-  comments: any[];
+  comments: CommentObject[];
   newComment: string;
 
 
@@ -55,12 +62,12 @@ export class CommentsComponent implements OnInit {
     };
 
     this.service.saveComment(commentObject).subscribe(() => {
-      this.comments.push(commentObject);
+      this.comments.unshift(commentObject);
       this.newComment = '';
       this.change.detectChanges();
     }, (err) => {
       if (err.status !== 400) {
-        this.comments.push(commentObject);
+        this.comments.unshift(commentObject);
         this.newComment = '';
       }
       this.change.detectChanges();

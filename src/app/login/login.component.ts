@@ -12,16 +12,24 @@ import {AuthService, FacebookLoginProvider} from 'angular-6-social-login';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  registration: boolean;
 
   loginName: string;
   loginPass: string;
 
   wasError: boolean;
 
+  data: {
+    username: string,
+    userpass: string,
+    email: string;
+  };
+
   constructor(private http: HttpClient, private socialAuthService: AuthService) {
   }
 
   ngOnInit() {
+    this.registration = false;
   }
 
 
@@ -36,12 +44,7 @@ export class LoginComponent implements OnInit {
         window.localStorage.setItem('user', this.loginName);
         this.wasError = false;
       }),
-      catchError((response: any) => {
-        if (response.status === 403) {
-          this.wasError = true;
-        }
-        return this.handleError(response);
-      })
+      catchError((response: any) => this.handleError(response))
     ).subscribe();
   }
 
@@ -64,15 +67,25 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  register(username: string, password: string): void {
+  register(): void {
+    this.data = {
+      username: '',
+      userpass: '',
+      email: ''
+    };
+    this.registration = true;
+  }
+
+  sendRegistration(data: any): void {
     const body = {
-      userName: username,
-      password: crypto.SHA256(password).toString(crypto.enc.Hex)
+      userName: data.username,
+      password: crypto.SHA256(data.userpass).toString(crypto.enc.Hex),
+      email: data.email
     };
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        'Authorization': 'Basic ' + btoa(username + ':' + password)
+        'Authorization': 'Basic ' + btoa(data.username + ':' + data.userpass)
       })
     };
 
@@ -81,15 +94,25 @@ export class LoginComponent implements OnInit {
         map(res => {
           window.localStorage.setItem('credentials', res['basic']);
           window.localStorage.setItem('user', this.loginName);
+          this.wasError = false;
+          this.closeRegistration();
         }),
         catchError((response: any) => this.handleError(response)))
       .subscribe();
+  }
+
+  closeRegistration(): void {
+    this.registration = false;
   }
 
   private handleError(error: Response | any) {
     let message;
     if (error.status === 403) {
       message = 'Unauthorized access';
+      this.wasError = true;
+    } else if (error.status === 400) {
+      message = 'User already exists';
+      this.wasError = true;
     } else {
       message = 'Wrong user name or password';
     }

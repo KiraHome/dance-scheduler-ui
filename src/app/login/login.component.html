@@ -1,23 +1,46 @@
-<div class="row">
+<div class="row" *ngIf="!registration">
   <div class="col-3"></div>
   <div class="col-6 main-login">
     <img src="../../assets/loginlogo.png" class="loginPicture">
     <div class="row inputs"><b>Név: </b><input type="text" class="loginForm form-control" id="loginName"
-                                        [(ngModel)]="loginName">
+                                               [(ngModel)]="loginName">
     </div>
     <div class="row inputs"><b>Jelszó: </b><input type="password" class="loginForm form-control" id="loginPass"
-                                           [(ngModel)]="loginPass">
+                                                  [(ngModel)]="loginPass">
     </div>
     <div *ngIf="wasError" class="invalid-name">
       <b>*Hibás felhasználónév, vagy jelszó</b>
     </div>
     <div class="row">
       <button class="btn btn-dark buttonGroup" (click)="login()">Bejelentkezés</button>
-      <button class="btn btn-outline-dark buttonGroup" (click)="register(loginName, loginPass)">Regisztráció</button>
+      <button class="btn btn-outline-dark buttonGroup" (click)="register()">Regisztráció</button>
     </div>
     <div class="fb-login-button">
-      <button class="fb-button" (click)="socialSignIn()"><img class="fb-icon" src="../../assets/fb-icon.png">Bejelentkezés Facebook-al</button>
+      <button class="fb-button" (click)="socialSignIn()">
+        <img class="fb-icon" src="../../assets/fb-icon.png">Bejelentkezés Facebook-al
+      </button>
     </div>
+  </div>
+  <div class="col-3"></div>
+</div>
+
+<div *ngIf="registration" class="row">
+  <div class="col-3"></div>
+  <div class="col-6 main-login">
+    <img src="../../assets/loginlogo.png" class="loginPicture">
+    <div class="row inputs"><b>Név: </b><input type="text" class="loginForm form-control"
+                                               [(ngModel)]="data.username">
+    </div>
+    <div class="row inputs"><b>Jelszó: </b><input type="password" class="loginForm form-control"
+                                                  [(ngModel)]="data.userpass">
+    </div>
+    <div class="row inputs"><b>Email cím: </b><input type="email" class="loginForm form-control"
+                                                     [(ngModel)]="data.email">
+    </div>
+    <div *ngIf="wasError" class="invalid-name">
+      <b>*Felhasználó ezzel a névvel már regisztrált a rendszerbe</b>
+    </div>
+    <button class="btn btn-dark send-button" (click)="sendRegistration(data)">Elküld</button>
   </div>
   <div class="col-3"></div>
 </div>
