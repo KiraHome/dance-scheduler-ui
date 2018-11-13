@@ -7,7 +7,7 @@
       <img *ngIf="getProfileImage(event.username)" [src]="getProfileImage(event.username)" class="user-image">
     </div>
   </div>
-  <div *ngIf="event.priority === 0" class="content">{{event.content + ' on ' + event.source}}</div>
-  <div *ngIf="event.priority === 1" class="content">{{getContentOfPersonalClass(event)}}</div>
-  <div *ngIf="event.priority === 2" class="content">{{getPriorityContent(event.content, event.source)}}</div>
+  <div *ngIf="event.priority === 0" class="content" [innerHtml]="getComment(event)"></div>
+  <div *ngIf="event.priority === 1" class="content" [innerHtml]="getContentOfPersonalClass(event)"></div>
+  <div *ngIf="event.priority === 2" class="content" [innerHtml]="getPriorityContent(event.content, event.source)"></div>
 </div>

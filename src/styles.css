@@ -68,3 +68,12 @@ body {
 .event-element {
   opacity: 0.8;
 }
+
+
+.special-date {
+  color: lightcoral;
+}
+
+.personal-date {
+  color: #72d3ff;
+}

@@ -59,16 +59,21 @@ export class EventFlowComponent implements OnInit {
     }
   }
 
+  getComment(event): string {
+    return 'Hozzászólás: "' + event.content + '" <i> a(z) ' +
+      (event.source.startsWith('time-table') ? 'Órarend' : 'Különórák') + '  oldalon</i>';
+  }
+
   getContentOfPersonalClass(event: any): string {
     const title = JSON.parse(event.content).title;
     const start = JSON.parse(event.content).start;
-    return title + ' ' + new DateTimeFormatterPipe().transform(start) + '-kor'
+    return title + ' <b class="personal-date">' + new DateTimeFormatterPipe().transform(start) + '-kor</b>'
       + (event.source.split(':')[1].trim() === 'Delete Class' ? ' TÖRÖLVE' : '');
   }
 
   getPriorityContent(event, source): string {
     const eventObject = JSON.parse(event);
-    return eventObject.event + ' ' + new DateTimeFormatterPipe().transform(eventObject.date) + '-kor'
+    return eventObject.event + ' <b class="special-date">' + new DateTimeFormatterPipe().transform(eventObject.date) + '-kor</b>'
       + (source.split(':')[1].trim() === 'Remove Class' ? ' TÖRÖLVE' : '');
   }
 
