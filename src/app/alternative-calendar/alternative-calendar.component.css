@@ -39,16 +39,15 @@
   height: 86px;
 }
 
-#add-new {
-  border-bottom-right-radius: 0;
-  border-top-right-radius: 0;
-}
-
-#save-new {
-  border-bottom-left-radius: 0;
-  border-top-left-radius: 0;
-}
-
 .trainer-dropdown {
   padding-left: 0;
+}
+
+.btn-groupped {
+  border-left-color: white;
+  border-right-color: white;
+}
+
+.weekly {
+  margin-left: 40%;
 }

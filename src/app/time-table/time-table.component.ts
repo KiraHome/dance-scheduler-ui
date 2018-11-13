@@ -118,12 +118,17 @@ export class TimeTableComponent implements OnInit {
                 )).subscribe();
               }
             });
+        } else {
+          this.segmentClicked({date: $event.event.start}, content);
         }
       }
     )).subscribe();
   }
 
   isValid(): boolean {
+    const tomorrowMidnight = addDays(startOfDay(this.actEventStart), 1);
+    const eventEndTime = addHours(this.actEventStart, this.eventLength);
+
     if (this.eventLength < 1) {
       this.ctrl = {
         valid: false,
@@ -132,7 +137,7 @@ export class TimeTableComponent implements OnInit {
           nonPositive: true
         }
       };
-    } else if (addDays(startOfDay(new Date()), 1) < addHours(this.actEventStart, this.eventLength)) {
+    } else if (tomorrowMidnight < eventEndTime) {
       this.ctrl = {
         valid: false,
         errors: {
@@ -161,7 +166,7 @@ export class TimeTableComponent implements OnInit {
               start: $event.date,
               end: addHours($event.date, this.eventLength),
               title: this.eventTitle,
-              color: {primary: 'rgb(25, 25, 112)', secondary: 'rgb(25, 25, 200)'},
+              color: {primary: 'rgb(25, 25, 200)', secondary: 'rgb(25, 25, 112)'},
               id: this.eventTitle + Math.random(),
               cssClass: 'special-event',
               recurring: false,
@@ -239,6 +244,10 @@ export class TimeTableComponent implements OnInit {
         }
       }
     }
+  }
+
+  isSaveDisabled() {
+    return this.isAddNewEvent && !this.ctrl.valid;
   }
 
   ngOnInit(): void {

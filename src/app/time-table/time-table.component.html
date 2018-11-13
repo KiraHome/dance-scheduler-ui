@@ -1,6 +1,6 @@
 <div *ngIf="isShow">
   <div class="col-7 trainer-buttons calendar-change">
-    <b>Heti Orarend</b>
+    <b class="title">Heti Orarend</b>
     <div class="btn-group right-cal">
       <button class="btn btn-dark" (click)="decrement()">
         Előző hét
@@ -68,7 +68,7 @@
     </div>
 
     <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="modal.close(dp)">
+      <button type="button" class="btn btn-dark" (click)="modal.close(dp)" [disabled]="isSaveDisabled()">
         {{isAddNewEvent ? 'Mentés' : 'Törlés'}}
       </button>
     </div>

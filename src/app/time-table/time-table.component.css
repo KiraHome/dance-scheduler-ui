@@ -45,3 +45,14 @@
 .modal-inputs input {
   border-radius: 5px;
 }
+
+.visible {
+  visibility: visible;
+}
+.hidden {
+  visibility: hidden;
+}
+
+.title {
+  margin-left: -15px;
+}

@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   loginName: string;
   loginPass: string;
 
+  wasError: boolean;
+
   constructor(private http: HttpClient, private socialAuthService: AuthService) {
   }
 
@@ -32,8 +34,14 @@ export class LoginComponent implements OnInit {
       map((res) => {
         window.localStorage.setItem('credentials', res['basic']);
         window.localStorage.setItem('user', this.loginName);
+        this.wasError = false;
       }),
-      catchError((response: any) => this.handleError(response))
+      catchError((response: any) => {
+        if (response.status === 403) {
+          this.wasError = true;
+        }
+        return this.handleError(response);
+      })
     ).subscribe();
   }
 

@@ -27,6 +27,10 @@ export class AlternativeCalendarComponent implements OnInit {
     name: 'Válassz',
     id: undefined
   };
+  weekly: boolean;
+
+  weeksAdded: number;
+
   fbLoggedIn: boolean;
 
   isValidTime: boolean;
@@ -38,12 +42,12 @@ export class AlternativeCalendarComponent implements OnInit {
   refresh: Subject<any> = new Subject();
 
   private colourSet = [
-    'rgba(0, 152, 214, 0.2)',
-    'rgba(15, 82, 186, 0.2)',
-    'rgba(0, 49, 82, 0.2)',
-    'rgba(115, 194, 251, 0.2)',
-    'rgba(76, 81, 109, 0.2)',
-    'rgba(70, 130, 180, 0.2)'
+    'rgba(0, 152, 214, 0.8)',
+    'rgba(15, 82, 186, 0.8)',
+    'rgba(0, 49, 82, 0.8)',
+    'rgba(115, 194, 251, 0.8)',
+    'rgba(76, 81, 109, 0.8)',
+    'rgba(70, 130, 180, 0.8)'
   ];
 
   private globalActions = [
@@ -67,13 +71,14 @@ export class AlternativeCalendarComponent implements OnInit {
     this.modalService.open(content, {backdropClass: 'light-blue-backdrop', size: 'xl' as 'lg'}).result.then(() => {
       if (this.validateModal()) {
         const trainerName = this.whom.name === 'Anita' ? 'Anitá' : this.whom.name;
-        const event: CalendarEvent = {
+        const event: any = {
           start: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute),
           end: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute + 45),
           title: this.who + ' órázik ' + trainerName + 'nál',
-          color: {primary: this.colourSet[3], secondary: this.colourSet[5]},
+          color: {primary: this.colourSet[Math.ceil(Math.random() * 5)], secondary: this.colourSet[Math.ceil(Math.random() * 5)]},
           actions: this.globalActions,
           id: this.whom.id + ' ' + this.who + ' ' + trainerName + ' ' + Math.random(),
+          recurring: this.weekly,
           cssClass: ''
         };
 
@@ -111,14 +116,35 @@ export class AlternativeCalendarComponent implements OnInit {
 
   increment(): void {
     this.changeDate(addWeeks(this.viewDate, 1));
+    this.events.forEach(event => {
+      if (event.recurring) {
+        event.start = addWeeks(event.start, 1);
+        event.end = addWeeks(event.end, 1);
+      }
+    });
+    ++this.weeksAdded;
   }
 
   decrement(): void {
     this.changeDate(addWeeks(this.viewDate, -1));
+    this.events.forEach(event => {
+      if (event.recurring) {
+        event.start = addWeeks(event.start, -1);
+        event.end = addWeeks(event.end, -1);
+      }
+    });
+    --this.weeksAdded;
   }
 
   today(): void {
     this.changeDate(new Date());
+    this.events.forEach(event => {
+      if (event.recurring) {
+        event.start = addWeeks(event.start, -this.weeksAdded);
+        event.end = addWeeks(event.end, -this.weeksAdded);
+      }
+    });
+    this.weeksAdded = 0;
   }
 
   changeDate(date: Date): void {
@@ -226,6 +252,7 @@ export class AlternativeCalendarComponent implements OnInit {
       this.who = new NameReversePipe().transform(window.localStorage.getItem('user'));
     }
 
+    this.weeksAdded = 0;
     this.getEvents();
   }
 }

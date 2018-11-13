@@ -26,7 +26,6 @@
       <div class="row">
         <button id="add-new" class="btn btn-dark add-button" (click)="addNewEvent(content)">Különóra Hozzáadása
         </button>
-        <!--<button id="save-new" class="btn btn-outline-dark add-button" (click)="saveEvents()">Különórák Mentése</button>-->
       </div>
     </div>
 
@@ -87,35 +86,40 @@
           <div *ngIf="ctrl.errors['tooLate']">21:15 az utolsó érvényes időpont</div>
           <div *ngIf="ctrl.errors['tooEarly']">Nem lehet korábban, mint 7:00</div>
         </div>
+        <b>Minden héten: </b>
+        <div>
+          <input type="checkbox" title="Minden héten ismétlődő alkalom" class="form-control weekly" [(ngModel)]="weekly">
+        </div>
       </div>
       <div class="col-9 day-picker">
         <b>Melyik napon rendszeresen: </b>
         <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioBasic" [(ngModel)]="day">
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="0"> Hétfő
           </label>
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="1"> Kedd
           </label>
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="2"> Szerda
           </label>
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="3"> Csütörtök
           </label>
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="4"> Péntek
           </label>
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="5"> Szombat
           </label>
-          <label ngbButtonLabel class="btn-primary">
+          <label ngbButtonLabel class="btn-dark">
             <input ngbButton type="radio" [value]="6"> Vasárnap
           </label>
         </div>
         <div>
           <b>Ki: </b>
-          <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who" [disabled]="fbLoggedIn" required>
+          <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who"
+                 [disabled]="fbLoggedIn" required>
           <div *ngIf="!who" class="invalid-name">Név megadása kötelező</div>
           <b>Kivel: </b>
           <div class="col trainer-dropdown">
@@ -133,7 +137,9 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-dark" (click)="modal.close(dp)" [disabled]="!ctrl.valid || !who || !whom.id">Mentés</button>
+      <button type="button" class="btn btn-dark" (click)="modal.close(dp)" [disabled]="!ctrl.valid || !who || !whom.id">
+        Mentés
+      </button>
     </div>
   </ng-template>
 </div>

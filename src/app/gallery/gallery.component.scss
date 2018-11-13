@@ -35,8 +35,7 @@
     height: 10px;
     border-radius: app-border-radius(cycle);
     background: black;
-    border-color: aliceblue;
-    border: 2px solid;
+    border: 2px solid aliceblue;
     opacity: 0.5;
     &.visible {
       opacity: 1;
@@ -78,15 +77,15 @@
 }
 
 .carousel-wrapper {
-  height: 800px;
+  height: 844px;
   background-color: black;
   margin: 20px;
 }
 
 .autoplay-button {
   position: absolute;
-  top: 10%;
-  left: 5%;
+  top: 92%;
+  left: 4%;
   opacity: 0.5;
   background-color: black;
   border: 0;
