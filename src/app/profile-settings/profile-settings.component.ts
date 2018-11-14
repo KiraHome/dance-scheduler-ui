@@ -26,6 +26,13 @@ export class ProfileSettingsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (!window.localStorage.getItem('credentials').startsWith('Basic')) {
+      this.isFbLoggedIn = true;
+    }
+  }
+
+  getUserName(): string {
+    return window.localStorage.getItem('user');
   }
 
   settingsSave() {
@@ -70,9 +77,5 @@ export class ProfileSettingsComponent implements OnInit {
     }
 
     return throwError(message);
-  }
-
-  isFbButtonDisabled() {
-    return !this.username || !this.userpass;
   }
 }

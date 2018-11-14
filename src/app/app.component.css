@@ -65,3 +65,18 @@
 #settings-icon:hover {
   opacity: 1;
 }
+
+#users-icon {
+  margin-top: 2px;
+  margin-right: 5px;
+  height: 44px;
+  opacity: 0.6;
+}
+#users-icon:hover {
+  opacity: 1;
+}
+
+.absolute-container {
+  position: absolute !important;
+  left: 88% !important;
+}

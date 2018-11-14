@@ -27,6 +27,7 @@ import {NameReversePipe} from './_pipes/name-reverse.pipe';
 import {GalleryComponent} from './gallery/gallery.component';
 import {NgxHmCarouselModule} from 'ngx-hm-carousel';
 import { ProfileSettingsComponent } from './profile-settings/profile-settings.component';
+import { UsersComponent } from './users/users.component';
 
 
 export function getAuthServiceConfigs() {
@@ -51,7 +52,8 @@ export function getAuthServiceConfigs() {
     NameReversePipe,
     EventFlowComponent,
     GalleryComponent,
-    ProfileSettingsComponent
+    ProfileSettingsComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,

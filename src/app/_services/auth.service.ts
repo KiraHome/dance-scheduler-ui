@@ -27,4 +27,13 @@ export class AuthService {
 
     return this.http.get('login/fb-ids', {headers: headers});
   }
+
+  getUsers(): Observable<any> {
+    const headers = {
+      username: window.localStorage.getItem('user'),
+      token: window.localStorage.getItem('credentials')
+    };
+
+    return this.http.get('login/users', {headers: headers});
+  }
 }

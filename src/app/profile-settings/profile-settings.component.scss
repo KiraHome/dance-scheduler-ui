@@ -35,12 +35,6 @@
   visibility: hidden;
 }
 
-.invalid-input {
-  color: #ff8080;
-  margin-top: 50px;
-  margin-left: 10px;
-}
-
 .profile-settings {
   margin: 10px 10px 10px 30px;
   border-radius: 10px;
@@ -49,18 +43,13 @@
   padding: 5px;
 }
 
-.inputs {
-  margin-left: 10px;
-}
-
 label {
   margin-right: 10px;
-  margin-top: 20px;
   font-weight: 700;
 }
 
-i {
-  font-weight: 500;
+.user {
+  margin-left: 5px;
 }
 
 .close-button {

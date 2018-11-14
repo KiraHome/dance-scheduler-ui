@@ -6,15 +6,17 @@
     </div>
     <div class="profile-settings">
       <i>Meglévő fiók összekapcsolása a Facebook fiókkal</i>
-      <div class="row inputs">
-        <label>Felhasználónév<input class="form-control" type="text" [(ngModel)]="username"></label>
-        <label>Jelszó<input class="form-control" type="password" [(ngModel)]="userpass"></label>
-        <button class="fb-button" (click)="socialSignIn()" [disabled]="isFbButtonDisabled()">
-          <img class="fb-icon" src="../../assets/fb-icon.png" ngClass="{{isFbButtonDisabled() ? 'disabled-icon' : ''}}">
-          Bejelentkezés Facebook-al
-        </button>
-        <div *ngIf="isFbButtonDisabled()" class="invalid-input">*Név és jelszó megadása kötelező</div>
-        <img src="../../assets/checkmark.svg" class="checkmark-icon" *ngIf="isFbLoggedIn">
+      <div class="inputs">
+        <div class="row user">
+          <label>Felhasználónév: {{getUserName() | nameReverse}}</label>
+        </div>
+        <div class="row user">
+          <button class="fb-button" (click)="socialSignIn()" [disabled]="isFbLoggedIn">
+            <img class="fb-icon" src="../../assets/fb-icon.png" ngClass="{{isFbLoggedIn ? 'disabled-icon' : ''}}">
+            Bejelentkezés Facebook-al
+          </button>
+          <img src="../../assets/checkmark.svg" class="checkmark-icon" *ngIf="isFbLoggedIn">
+        </div>
       </div>
     </div>
   </div>

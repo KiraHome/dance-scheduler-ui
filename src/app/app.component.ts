@@ -7,6 +7,7 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AppComponent implements OnInit {
   isShowPersonalSettings: boolean;
+  isShowUsers: boolean;
 
   constructor() {
   }
@@ -23,6 +24,10 @@ export class AppComponent implements OnInit {
     this.isShowPersonalSettings = false;
   }
 
+  openUsers(): void {
+    this.isShowUsers = true;
+  }
+
   openPersonalSettings(): void {
     this.isShowPersonalSettings = true;
   }
@@ -33,5 +38,13 @@ export class AppComponent implements OnInit {
 
   optionsSaved($event): void {
     this.closePersonalSettings();
+  }
+
+  isShowMainPage(): boolean {
+    return this.isLoggedIn() && !this.isShowPersonalSettings && !this.isShowUsers;
+  }
+
+  usersClosed() {
+    this.isShowUsers = false;
   }
 }

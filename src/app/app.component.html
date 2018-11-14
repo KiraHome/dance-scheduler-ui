@@ -1,12 +1,12 @@
 <app-login *ngIf="!isLoggedIn()"></app-login>
 
-<div class="main-page" *ngIf="isLoggedIn() && !isShowPersonalSettings">
+<div class="main-page" *ngIf="isShowMainPage()">
 
   <div class="header-line row">
     <div class="col-1">
       <div class="balet-woman"></div>
     </div>
-    <div class="col-10 content">
+    <div class="content col-10">
       <ngb-tabset>
         <ngb-tab title="Főoldal">
           <ng-template ngbTabContent>
@@ -53,11 +53,12 @@
         </ngb-tab>
       </ngb-tabset>
     </div>
+    <div class="absolute-container row">
+      <img id="users-icon" src="../assets/people.svg" (click)="openUsers()">
+      <img id="settings-icon" src="../assets/settings2.svg" (click)="openPersonalSettings()">
+    </div>
     <div class="col-1">
-      <div class="row">
-        <img id="settings-icon" src="../assets/settings2.svg" (click)="openPersonalSettings()">
-        <button class="btn btn-dark logoutButton" (click)="logout()">Logout</button>
-      </div>
+      <button class="btn btn-dark logoutButton" (click)="logout()">Logout</button>
     </div>
   </div>
 </div>
@@ -66,4 +67,9 @@
                       *ngIf="isShowPersonalSettings"
                       (optionsSaved)="optionsSaved($event)"
 ></app-profile-settings>
+
+<app-users class="main-page"
+           *ngIf="isShowUsers"
+           (closeEvent)="usersClosed()"
+></app-users>
 

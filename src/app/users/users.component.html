@@ -1,0 +1,17 @@
+<div class="settings-wrapper">
+  <div class="main-frame">
+    <div>
+      <b>Felhasználók a rendszerben: </b>
+      <img src="../../assets/close.svg" class="close-button" (click)="closeUsers()">
+    </div>
+    <div class="profile-settings">
+      <div class="inputs row">
+        <div class="names col-6" *ngFor="let user of users">
+          <b>{{user.username | nameReverse}}</b>
+          <img *ngIf="user.fb_id" [src]="getProfileImage(user.fb_id)" class="user-image">
+          <i class="row email" *ngIf="user.email">Email cim: {{user.email}}</i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
