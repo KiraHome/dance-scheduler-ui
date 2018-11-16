@@ -3,6 +3,10 @@ import {catchError, map} from 'rxjs/internal/operators';
 import {AuthService, FacebookLoginProvider} from 'angular-6-social-login';
 import {HttpClient} from '@angular/common/http';
 import {throwError} from 'rxjs';
+import * as crypto from 'crypto-js';
+import {AuthService as UserAuthService} from '../_services/auth.service';
+import {Router} from '@angular/router';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 
 @Component({
@@ -13,14 +17,18 @@ import {throwError} from 'rxjs';
 export class ProfileSettingsComponent implements OnInit {
   @Output()
   optionsSaved = new EventEmitter();
+  @Output()
+  profileDeleted = new EventEmitter();
 
   username: string;
+  userpass: string;
 
   data: any;
 
   isFbLoggedIn: boolean;
 
-  constructor(private http: HttpClient, private socialAuthService: AuthService) {
+  constructor(private http: HttpClient, private socialAuthService: AuthService, private modalService: NgbModal,
+              private userAuthService: UserAuthService, private router: Router) {
   }
 
   ngOnInit() {
@@ -84,5 +92,39 @@ export class ProfileSettingsComponent implements OnInit {
     }
 
     return throwError(message);
+  }
+
+  deleteProfile(content) {
+    const headers = {
+      username: this.username,
+      pass: crypto.SHA256(this.userpass).toString(crypto.enc.Hex),
+      uuid: ''
+    };
+
+    this.http.get('login', {headers: headers}).pipe(
+      map(() => {
+        this.userAuthService.getMe().pipe(map(
+          (res) => {
+            headers.uuid = res.uuid;
+            this.modalService.open(content, {backdropClass: 'light-blue-backdrop', size: 'xl' as 'lg'}).result.then(() => {
+              this.http.delete('login/me', {headers: headers}).pipe(map(
+                () => {
+                  window.localStorage.removeItem('user');
+                  window.localStorage.removeItem('userId');
+                  window.localStorage.removeItem('credentials');
+                  this.profileDeleted.emit();
+                  this.router.navigate(['login']);
+                }), catchError((response: any) => this.handleError(response))
+              ).subscribe();
+            }).catch(() => {
+            });
+          }), catchError((response: any) => this.handleError(response))
+        ).subscribe();
+      }), catchError((response: any) => this.handleError(response))
+    ).subscribe();
+  }
+
+  isDisabledDeleteProfile() {
+    return !this.username || !this.userpass;
   }
 }

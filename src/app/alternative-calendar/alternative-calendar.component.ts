@@ -95,6 +95,7 @@ export class AlternativeCalendarComponent implements OnInit {
 
         this.saveEvents();
       }
+    }).catch(() => {
     });
   }
 

@@ -45,8 +45,11 @@
     </div>
     <div class="send-button">
       <button class="btn btn-dark" (click)="closeRegistration()">Vissza</button>
-      <button class="btn btn-dark send-reg-button" (click)="sendRegistration(data)">Elküld</button>
+      <button class="btn btn-dark send-reg-button"
+              (click)="sendRegistration(data)"
+              [disabled]="isDisabledRegistration(data)">Elküld</button>
     </div>
+    <re-captcha (resolved)="resolved($event)" siteKey="6LcOuyYTAAAAAHTjFuqhA52fmfJ_j5iFk5PsfXaU"></re-captcha>
   </div>
   <div class="col-3"></div>
 </div>

@@ -28,6 +28,8 @@ export class LoginComponent implements OnInit {
 
   data: LoginData;
 
+  private resolvedCaptcha: boolean;
+
   constructor(private http: HttpClient, private socialAuthService: AuthService) {
   }
 
@@ -80,14 +82,22 @@ export class LoginComponent implements OnInit {
   }
 
   sendRegistration(data: LoginData): void {
+    function guid() {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
 
-    this.wrongEmailError = !!data.email.match('.{1,255}@.{1,15}\..{1,7}');
+      return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
 
     const body = {
       userName: data.username,
       password: crypto.SHA256(data.userpass).toString(crypto.enc.Hex),
       originalPass: data.userpass,
-      email: data.email
+      email: data.email,
+      uuid: guid()
     };
     const httpOptions = {
       headers: new HttpHeaders({
@@ -96,20 +106,28 @@ export class LoginComponent implements OnInit {
       })
     };
 
-    this.http.post('register', body, httpOptions)
-      .pipe(
-        map(res => {
-          window.localStorage.setItem('credentials', res['basic']);
-          window.localStorage.setItem('user', data.username);
-          this.wasError = false;
-          this.closeRegistration();
-        }),
-        catchError((response: any) => this.handleError(response)))
-      .subscribe();
+    if (this.resolvedCaptcha) {
+      this.http.post('register', body, httpOptions)
+        .pipe(
+          map(res => {
+            window.localStorage.setItem('credentials', res['basic']);
+            window.localStorage.setItem('user', data.username);
+            this.wasError = false;
+            this.closeRegistration();
+          }),
+          catchError((response: any) => this.handleError(response)))
+        .subscribe();
+    }
   }
 
   closeRegistration(): void {
     this.registration = false;
+  }
+
+  resolved(captchaResponse: string) {
+    if (captchaResponse) {
+      this.resolvedCaptcha = true;
+    }
   }
 
   private handleError(error: Response | any) {
@@ -125,5 +143,9 @@ export class LoginComponent implements OnInit {
     }
 
     return throwError(message);
+  }
+
+  isDisabledRegistration(data: LoginData) {
+    return !data || !data.email || !data.email.match('.{1,255}@.{1,15}\..{1,7}');
   }
 }

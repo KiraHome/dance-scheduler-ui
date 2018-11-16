@@ -125,7 +125,8 @@ export class TimeTableComponent implements OnInit {
                   }
                 )).subscribe();
               }
-            });
+            }).catch(() => {
+          });
         } else {
           this.segmentClicked({date: $event.event.start}, content);
         }
@@ -190,7 +191,8 @@ export class TimeTableComponent implements OnInit {
                 this.refresh.next();
               }
             )).subscribe();
-          });
+          }).catch(() => {
+        });
       }
     )).subscribe();
   }

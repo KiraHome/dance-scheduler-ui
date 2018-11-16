@@ -66,10 +66,10 @@
 <app-profile-settings class="main-page"
                       *ngIf="isShowPersonalSettings"
                       (optionsSaved)="optionsSaved($event)"
+                      (profileDeleted)="closePersonalSettings()"
 ></app-profile-settings>
 
 <app-users class="main-page"
            *ngIf="isShowUsers"
            (closeEvent)="usersClosed()"
 ></app-users>
-
