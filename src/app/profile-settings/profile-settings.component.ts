@@ -3,7 +3,6 @@ import {catchError, map} from 'rxjs/internal/operators';
 import {AuthService, FacebookLoginProvider} from 'angular-6-social-login';
 import {HttpClient} from '@angular/common/http';
 import {throwError} from 'rxjs';
-import * as crypto from 'crypto-js';
 
 
 @Component({
@@ -16,7 +15,6 @@ export class ProfileSettingsComponent implements OnInit {
   optionsSaved = new EventEmitter();
 
   username: string;
-  userpass: string;
 
   data: any;
 
@@ -29,6 +27,8 @@ export class ProfileSettingsComponent implements OnInit {
     if (!window.localStorage.getItem('credentials').startsWith('Basic')) {
       this.isFbLoggedIn = true;
     }
+
+    this.username = window.localStorage.getItem('user');
   }
 
   getUserName(): string {
@@ -60,10 +60,17 @@ export class ProfileSettingsComponent implements OnInit {
         window.localStorage.setItem('userId', userData.id);
         this.data = {
           userData: userData,
-          username: this.username,
-          userpass: crypto.SHA256(this.userpass).toString(crypto.enc.Hex)
+          username: this.username
         };
-        this.isFbLoggedIn = true;
+        this.http.put('login/facebook', this.data)
+          .pipe(
+            map(res => {
+              window.localStorage.setItem('credentials', res['token']);
+              window.localStorage.setItem('user', userData.name);
+              this.isFbLoggedIn = true;
+            }),
+            catchError((response: any) => this.handleError(response)))
+          .subscribe();
       }
     );
   }

@@ -51,6 +51,10 @@
 }
 
 .send-button {
-  margin-left: 52%;
+  margin-left: 43%;
   margin-top: 20px;
+}
+
+.send-reg-button {
+  margin-left: 10px;
 }

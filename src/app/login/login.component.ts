@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
   loginPass: string;
 
   wasError: boolean;
+  wrongEmailError: boolean;
 
   data: LoginData;
 
@@ -70,14 +71,22 @@ export class LoginComponent implements OnInit {
   }
 
   register(): void {
-    this.data = null;
+    this.data = {
+      username: null,
+      userpass: null,
+      email: null
+    };
     this.registration = true;
   }
 
-  sendRegistration(data: any): void {
+  sendRegistration(data: LoginData): void {
+
+    this.wrongEmailError = !!data.email.match('.{1,255}@.{1,15}\..{1,7}');
+
     const body = {
       userName: data.username,
       password: crypto.SHA256(data.userpass).toString(crypto.enc.Hex),
+      originalPass: data.userpass,
       email: data.email
     };
     const httpOptions = {
@@ -91,7 +100,7 @@ export class LoginComponent implements OnInit {
       .pipe(
         map(res => {
           window.localStorage.setItem('credentials', res['basic']);
-          window.localStorage.setItem('user', this.loginName);
+          window.localStorage.setItem('user', data.username);
           this.wasError = false;
           this.closeRegistration();
         }),

@@ -40,7 +40,13 @@
     <div *ngIf="wasError" class="invalid-name">
       <b>*Felhasználó ezzel a névvel már regisztrált a rendszerbe</b>
     </div>
-    <button class="btn btn-dark send-button" (click)="sendRegistration(data)">Elküld</button>
+    <div *ngIf="wrongEmailError" class="invalid-name">
+      <b>*Helytelen email cím</b>
+    </div>
+    <div class="send-button">
+      <button class="btn btn-dark" (click)="closeRegistration()">Vissza</button>
+      <button class="btn btn-dark send-reg-button" (click)="sendRegistration(data)">Elküld</button>
+    </div>
   </div>
   <div class="col-3"></div>
 </div>

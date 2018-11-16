@@ -30,6 +30,10 @@ export class UsersComponent implements OnInit {
     )).subscribe();
   }
 
+  isMyCard(user: UserObject): boolean {
+    return window.localStorage.getItem('user') === user.username;
+  }
+
   getProfileImage(id: string): string {
     return 'https://graph.facebook.com/' + id + '/picture?type=normal';
   }
