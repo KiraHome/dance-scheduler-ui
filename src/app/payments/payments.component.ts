@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import * as moment from '../../../node_modules/moment/';
 import {PaymentService} from '../_services/payment.service';
 import {catchError, map} from 'rxjs/internal/operators';
@@ -8,6 +8,9 @@ import {Observable, Subject, throwError} from 'rxjs';
 import {CalendarEventTimesChangedEvent} from 'angular-calendar';
 import {PersonalClassService} from '../_services/personal-class.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {AccountingService} from '../_services/accounting.service';
+import * as Chart from '../../../node_modules/chart.js/';
+
 
 interface EventObject {
   start: Date;
@@ -16,6 +19,13 @@ interface EventObject {
   cssClass: string;
   color: string;
   recurring: boolean;
+  title?: string;
+}
+
+interface PaymentObject {
+  payTimestamp: Date;
+  credit: number;
+  type: string;
 }
 
 @Component({
@@ -23,7 +33,7 @@ interface EventObject {
   templateUrl: './payments.component.html',
   styleUrls: ['./payments.component.css']
 })
-export class PaymentsComponent implements OnInit {
+export class PaymentsComponent implements OnInit, OnDestroy {
   @Input()
   isShow: boolean;
   viewDate: Date = new Date();
@@ -37,14 +47,43 @@ export class PaymentsComponent implements OnInit {
   events: EventObject[];
   actEvent: EventObject;
 
+  accounting: PaymentObject[];
+
+  chart: Chart;
+
+  private colourSet: string[] = [
+    'rgba(0, 152, 214, 0.8)',
+    'rgba(15, 82, 186, 0.8)',
+    'rgba(0, 49, 82, 0.8)',
+    'rgba(115, 194, 251, 0.8)',
+    'rgba(76, 81, 109, 0.8)',
+    'rgba(106, 90, 205, 0.8)',
+    'rgba(135, 206, 250, 0.8)',
+    'rgba(70, 130, 180, 0.8)',
+    'rgba(157, 193, 131, 0.8)',
+    'rgba(0, 168, 107, 0.8)',
+    'rgba(152, 251, 152, 0.8)',
+    'rgba(80, 200, 120, 0.8)'
+  ];
+
   constructor(private paymentService: PaymentService, private authService: AuthService,
-              private personalClassService: PersonalClassService, private modalService: NgbModal) {
+              private personalClassService: PersonalClassService, private modalService: NgbModal,
+              private accountingService: AccountingService) {
   }
 
   ngOnInit() {
     this.getPayments();
 
     this.getEvents();
+
+    this.accounting = [];
+    this.getAccountingList();
+  }
+
+  ngOnDestroy() {
+    if (this.chart) {
+      this.chart.destroy();
+    }
   }
 
   actualSchoolYear(): number {
@@ -219,6 +258,70 @@ export class PaymentsComponent implements OnInit {
         this.paymentTable.sort(paymentComparator);
       }
     )).subscribe();
+  }
+
+  private getAccountingList() {
+    this.accountingService.getAccountingList().pipe(map(
+      (res: any) => {
+        this.accounting = res.map(el => {
+          return {
+            payTimestamp: new Date(el.pay_timestamp),
+            credit: el.credit,
+            type: el.type
+          };
+        });
+      }), catchError(err => this.handleHttpError(err))).subscribe();
+  }
+
+  getAccountingSum(): number {
+    if (!this.chart) {
+      this.createChart();
+    }
+
+    if (this.accounting.length > 0) {
+      return this.accounting.map(a => a.credit).reduce((a, b) => a + b, 0);
+    }
+    return 0;
+  }
+
+  createPaymentDistributionForChart(): number[] {
+    const retVal = [];
+    this.dates.forEach(date => {
+      const monthlySum = this.accounting.filter(payment => {
+        return payment.payTimestamp.getFullYear() === parseInt(date.split('/')[0], null) &&
+          payment.payTimestamp.getMonth() + 1 === parseInt(date.split('/')[1], null);
+      }).map(el => el.credit).reduce((a, b) => a + b, 0);
+
+      if (monthlySum) {
+        retVal.push(monthlySum);
+      } else {
+        retVal.push(0);
+      }
+    });
+    return retVal;
+  }
+
+  createChart(): void {
+    this.chart = new Chart(document.getElementById('bar-chart'), {
+      type: 'bar',
+      data: {
+        labels: this.dates,
+        datasets: [
+          {
+            label: 'Befizetésel eloszlása',
+            backgroundColor: this.colourSet,
+            data: this.createPaymentDistributionForChart()
+          }
+        ]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: 'Befizetések eloszlása a tanévben'
+        }
+      }
+    });
   }
 
   private handleHttpError(error: Response | any): Observable<any> {

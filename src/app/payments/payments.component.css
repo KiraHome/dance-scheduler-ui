@@ -17,3 +17,9 @@
 .outter-content {
   margin-bottom: 20px;
 }
+
+.chart-wrapper {
+  position: relative;
+  width: 800px;
+  height: 450px;
+}

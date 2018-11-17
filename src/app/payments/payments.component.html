@@ -50,6 +50,15 @@
     <ngb-tab title="Kimutatások">
       <ng-template ngbTabContent>
         <b>Kimutatások</b>
+        <ul>
+          <li *ngFor="let payment of accounting">
+            {{payment.payTimestamp | dateTimeFormatter: 'dateOnly'}} {{' ' + payment.credit + ' ' + payment.type}}
+          </li>
+        </ul>
+        <p>Összesen: {{getAccountingSum()}}</p>
+        <div class="chart-wrapper">
+          <canvas id="bar-chart" width="800" height="450"></canvas>
+        </div>
       </ng-template>
     </ngb-tab>
   </ngb-tabset>
@@ -70,8 +79,8 @@
         <b>A {{actEvent.start | dateTimeFormatter}}-kor kezdődő {{actEvent.title}} kifizetése megtörtént?</b>
       </div>
     </div>
-/
     <div class="modal-footer">
+      <button type="button" class="btn btn-dark" (click)="modal.dismiss('Cross click')">Nem</button>
       <button type="button" class="btn btn-dark" (click)="modal.close(dp)">Igen</button>
     </div>
   </ng-template>
