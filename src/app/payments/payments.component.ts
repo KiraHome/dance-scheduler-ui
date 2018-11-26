@@ -10,6 +10,7 @@ import {PersonalClassService} from '../_services/personal-class.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AccountingService} from '../_services/accounting.service';
 import * as Chart from '../../../node_modules/chart.js/';
+import {ChartData, ChartOptions} from 'chart.js';
 
 
 interface EventObject {
@@ -302,25 +303,27 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   }
 
   createChart(): void {
+    const options: ChartOptions = {
+      legend: {display: false},
+      title: {
+        display: true,
+        text: 'Befizetések eloszlása a tanévben',
+      }
+    };
+
+    const data: ChartData = {
+      labels: this.dates,
+      datasets: [{
+        label: 'Befizetésel eloszlása',
+        backgroundColor: this.colourSet,
+        data: this.createPaymentDistributionForChart()
+      }]
+    };
+
     this.chart = new Chart(document.getElementById('bar-chart'), {
       type: 'bar',
-      data: {
-        labels: this.dates,
-        datasets: [
-          {
-            label: 'Befizetésel eloszlása',
-            backgroundColor: this.colourSet,
-            data: this.createPaymentDistributionForChart()
-          }
-        ]
-      },
-      options: {
-        legend: {display: false},
-        title: {
-          display: true,
-          text: 'Befizetések eloszlása a tanévben'
-        }
-      }
+      data: data,
+      options: options
     });
   }
 

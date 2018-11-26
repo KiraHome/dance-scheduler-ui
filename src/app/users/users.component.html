@@ -6,7 +6,9 @@
     </div>
     <div class="profile-settings">
       <div class="inputs row">
-        <div class="names col-6" *ngFor="let user of users" [ngClass]="isMyCard(user) ? 'my-card' : ''">
+        <input type="text" class="form-control search-field" placeholder="Név keresése:"
+               (input)="filterUsers($event.target.value)">
+        <div class="names col-6" *ngFor="let user of filteredUsers" [ngClass]="isMyCard(user) ? 'my-card' : ''">
           <b>{{user.username | nameReverse}}</b>
           <img *ngIf="user.fb_id" [src]="getProfileImage(user.fb_id)" class="user-image">
           <i class="row email" *ngIf="user.email">Email cim: {{user.email}}</i>

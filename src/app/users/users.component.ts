@@ -17,17 +17,29 @@ export class UsersComponent implements OnInit {
   @Output()
   closeEvent = new EventEmitter();
 
-  users: [UserObject];
+  users: UserObject[];
+  filteredUsers: UserObject[];
 
   constructor(private authService: AuthService) {
   }
 
   ngOnInit() {
     this.authService.getUsers().pipe(map(
-      (res: [UserObject]) => {
+      (res: UserObject[]) => {
         this.users = res;
+        this.filteredUsers = res.slice();
       }
     )).subscribe();
+  }
+
+  filterUsers(userName: string): void {
+    if (userName === '') {
+      this.filteredUsers = this.users.slice();
+    } else {
+      this.filteredUsers = this.users.filter(user =>
+        user.username.match(userName.split('').reduce((c1, c2) => c1 + '[^' + c2 + ']*' + c2))
+      );
+    }
   }
 
   isMyCard(user: UserObject): boolean {
