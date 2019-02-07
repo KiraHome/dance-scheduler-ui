@@ -1,0 +1,19 @@
+version: '3.0'
+
+services:
+  angular:
+    build: ~/gitWS/dance-scheduler-ui
+    ports:
+    - "4200:4200"
+
+  express:
+    build: ~/gitWS/dance-scheduler-backend
+    ports:
+    - "3001:3001"
+    links:
+    - database
+
+  database:
+    build: ~/gitWS/dance-scheduler-db
+    ports:
+    - "5432:5432"
