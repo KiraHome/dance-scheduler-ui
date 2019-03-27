@@ -30,6 +30,7 @@ import {ProfileSettingsComponent} from './profile-settings/profile-settings.comp
 import {UsersComponent} from './users/users.component';
 import {RecaptchaModule} from 'ng-recaptcha';
 import {routing} from './app.routing';
+import {ArraySortPipe} from './_pipes/sort.pipe';
 
 
 export function getAuthServiceConfigs() {
@@ -52,6 +53,7 @@ export function getAuthServiceConfigs() {
     CommentsComponent,
     DateTimeFormatterPipe,
     NameReversePipe,
+    ArraySortPipe,
     EventFlowComponent,
     GalleryComponent,
     ProfileSettingsComponent,

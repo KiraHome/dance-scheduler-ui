@@ -116,11 +116,13 @@
             <input ngbButton type="radio" [value]="6"> Vasárnap
           </label>
         </div>
+
         <div>
           <b>Ki: </b>
           <input title="A különórázó(k) neve(i)" type="text" class="form-control" [(ngModel)]="who"
                  [disabled]="fbLoggedIn" required>
           <div *ngIf="!who" class="invalid-name">Név megadása kötelező</div>
+
           <b>Kivel: </b>
           <div class="col trainer-dropdown">
             <div ngbDropdown class="d-inline-block">
@@ -133,6 +135,16 @@
             </div>
           </div>
           <div *ngIf="!whom.id" class="invalid-name">Név megadása kötelező</div>
+
+          <b>Táncpartner: </b>
+          <div class="col trainer-dropdown">
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary" id="dropdownBasic2" ngbDropdownToggle>{{partner.name ? partner.name : 'Válassz'}}</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button *ngFor="let user of getUsers()" class="dropdown-item" (click)="setPartner(user.username)">{{user.username}}</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

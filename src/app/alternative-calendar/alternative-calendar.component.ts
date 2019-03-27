@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
 import {CalendarEvent, CalendarEventTimesChangedEvent} from 'angular-calendar';
-import {addDays, addHours, addMinutes, addWeeks, startOfDay, startOfISOWeek} from 'date-fns';
+import {addDays, addHours, addMinutes, addWeeks, startOfDay, startOfISOWeek, startOfWeek} from 'date-fns';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {Observable, Subject, throwError} from 'rxjs';
@@ -8,6 +8,13 @@ import {PersonalClassService} from '../_services/personal-class.service';
 import {catchError, map} from 'rxjs/internal/operators';
 import {EventFlowService, FlowEvent} from '../_services/event-flow.service';
 import {NameReversePipe} from '../_pipes/name-reverse.pipe';
+import {AuthService} from '../_services/auth.service';
+
+interface UserObject {
+  username: string;
+  fb_id: string;
+  email: string;
+}
 
 @Component({
   selector: 'app-alternative-calendar',
@@ -28,6 +35,10 @@ export class AlternativeCalendarComponent implements OnInit {
     name: 'Válassz',
     id: undefined
   };
+  partner = {
+    name: ''
+  };
+  users: UserObject[];
 
   weekly: boolean;
 
@@ -64,7 +75,16 @@ export class AlternativeCalendarComponent implements OnInit {
   events: any[];
 
   constructor(private modalService: NgbModal, private formBuilder: FormBuilder,
-              private personalClassService: PersonalClassService, private eventFlowService: EventFlowService) {
+              private personalClassService: PersonalClassService, private eventFlowService: EventFlowService,
+              private authService: AuthService) {
+  }
+
+  getUsers(): any[] {
+    return this.users;
+  }
+
+  setPartner(username): void {
+    this.partner.name = username;
   }
 
   addNewEvent(content): void {
@@ -74,7 +94,7 @@ export class AlternativeCalendarComponent implements OnInit {
         const event: any = {
           start: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute),
           end: addMinutes(addHours(addDays(startOfISOWeek(startOfDay(new Date())), this.day), this.time.hour), this.time.minute + 45),
-          title: this.who + ' órázik ' + trainerName + 'nál',
+          title: this.who + ' órázik ' + trainerName + 'nál ' + (this.partner.name ? this.partner.name + '-al' : ''),
           color: {primary: this.colourSet[Math.ceil(Math.random() * 5)], secondary: this.colourSet[Math.ceil(Math.random() * 5)]},
           actions: this.globalActions,
           id: this.whom.id + ' ' + this.who + ' ' + trainerName + ' ' + Math.random(),
@@ -183,6 +203,10 @@ export class AlternativeCalendarComponent implements OnInit {
         this.events = result.map(event => {
           event.start = new Date(event.start);
           event.end = new Date(event.end_);
+          while (event.recurring && startOfWeek(event.start) < startOfWeek(new Date())) {
+            event.start = addWeeks(event.start, 1);
+            event.end = addWeeks(event.end, 1);
+          }
           delete event.end_;
           event.cssClass = event.cssclass;
           event.color = JSON.parse(event.color);
@@ -243,6 +267,13 @@ export class AlternativeCalendarComponent implements OnInit {
 
       return null;
     });
+
+    this.users = [];
+    this.authService.getUsers().pipe(
+      map(
+        result => this.users = result
+      )
+    ).subscribe();
 
     this.trainerFormControl = this.formBuilder.group({'model': 0});
     this.trainer = 0;

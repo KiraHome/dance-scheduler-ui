@@ -1,11 +1,19 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import * as moment from '../../../node_modules/moment/';
 import {PaymentService} from '../_services/payment.service';
 import {catchError, map} from 'rxjs/internal/operators';
-import {addMonths, addWeeks, addYears, startOfDay, startOfWeek, subMonths} from 'date-fns';
+import {
+  addDays,
+  addMonths,
+  addWeeks,
+  differenceInCalendarYears,
+  startOfDay,
+  startOfMonth,
+  startOfWeek,
+  startOfYear,
+  subMonths
+} from 'date-fns';
 import {AuthService} from '../_services/auth.service';
-import {Observable, Subject, throwError} from 'rxjs';
-import {CalendarEventTimesChangedEvent} from 'angular-calendar';
+import {Observable, throwError} from 'rxjs';
 import {PersonalClassService} from '../_services/personal-class.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {AccountingService} from '../_services/accounting.service';
@@ -37,12 +45,10 @@ interface PaymentObject {
 export class PaymentsComponent implements OnInit, OnDestroy {
   @Input()
   isShow: boolean;
-  viewDate: Date = new Date();
-  refresh: Subject<any> = new Subject();
 
   dates = this.enumerateDates(
-    addMonths(addYears(new Date(), this.actualSchoolYear() - 1), 10),
-    addMonths(addYears(new Date(), this.actualSchoolYear()), 8));
+    addMonths(startOfYear(new Date()), 0),
+    addMonths(startOfYear(new Date()), 9));
   paymentTable = [];
 
   events: EventObject[];
@@ -85,13 +91,6 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     if (this.chart) {
       this.chart.destroy();
     }
-  }
-
-  actualSchoolYear(): number {
-    if (new Date().getMonth() <= 6) {
-      return -1;
-    }
-    return 0;
   }
 
   paymentDone(d, index): void {
@@ -137,17 +136,39 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   }
 
   enumerateDates(startDate, endDate): string[] {
-    const dates = [moment(startDate).add(1, 'day').toDate()];
+    const dates = [];
 
-    const currDate = moment(startDate).startOf('month').add(1, 'day');
+    startDate = addDays(startDate, 15);
 
-    const lastDate = moment(endDate).startOf('month').add(1, 'day');
-    while (currDate.add(1, 'month').diff(lastDate) < 0) {
-
-      dates.push(currDate.clone().toDate());
+    while (startOfMonth(startDate) <= startOfMonth(endDate)) {
+      dates.push(startDate);
+      startDate = addMonths(startDate, 1);
     }
 
     return dates.map((e) => e.getFullYear() + '/' + (e.getMonth() + 1));
+  }
+
+  getPaymentList(lastPaid, event: EventObject): any[] {
+    const weekList = [];
+    while (startOfWeek(lastPaid) < startOfWeek(new Date())) {
+      lastPaid = addWeeks(lastPaid, 1);
+      weekList.push(
+        lastPaid.getFullYear() + '-' + (lastPaid.getMonth() + 1) + '-' + lastPaid.getDate() +
+        ' ' + event.start.getHours() + ':' + event.start.getMinutes()
+      );
+    }
+    return weekList;
+  }
+
+  payClass(event: EventObject, content): void {
+    this.actEvent = event;
+    this.modalService.open(content, {backdropClass: 'light-blue-backdrop', size: 'xl' as 'lg'}).result.then(
+      () => {
+        event.lastPaidClass = addWeeks(event.lastPaidClass, 1);
+        this.personalClassService.updateLastPaid(event).subscribe();
+      }
+    ).catch(() => {
+    });
   }
 
   getLastUnpaidClasses(): any[] {
@@ -156,6 +177,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     }
     return this.events
       .filter(event => (event.recurring && startOfWeek(event.lastPaidClass) < startOfWeek(new Date())) ||
+        (event.recurring && differenceInCalendarYears(event.lastPaidClass, new Date()) < 0) ||
         (!event.recurring && event.lastPaidClass === null) ||
         (!event.recurring && event.lastPaidClass && startOfDay(event.lastPaidClass) < startOfDay(event.start)))
       .map(event => {
@@ -168,30 +190,6 @@ export class PaymentsComponent implements OnInit, OnDestroy {
         }
         return event;
       });
-  }
-
-  eventTimesChanged({event, newStart, newEnd}: CalendarEventTimesChangedEvent): void {
-    event.start = newStart;
-    event.end = newEnd;
-    this.refresh.next();
-  }
-
-  eventClicked($event, content): void {
-    console.log('Event clicked', $event);
-    this.authService.isAdminLoggedIn().pipe(map(
-      () => {
-        this.actEvent = $event.event;
-        this.modalService.open(content, {backdropClass: 'light-blue-backdrop', size: 'xl' as 'lg'}).result.then(
-          () => {
-            const event = $event.event;
-            event.lastPaidClass = $event.event.start;
-            this.personalClassService.updateLastPaid(event).pipe(catchError(err => this.handleHttpError(err))).subscribe();
-            event.start = addWeeks(event.start, 1);
-            event.end = addWeeks(event.end, 1);
-            this.events = this.getLastUnpaidClasses();
-          });
-      }
-    ), catchError(err => this.handleHttpError(err))).subscribe();
   }
 
   getEvents(): void {
@@ -223,12 +221,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
       (res: any[]) => {
         res.forEach((element, index) => {
           const lastPaid = new Date(element.lastpaid);
-          let paidMonthes = 0;
-          if (lastPaid.getFullYear() > 2018) {
-            paidMonthes = lastPaid.getMonth() + 4;
-          } else {
-            paidMonthes = lastPaid.getMonth() - 8;
-          }
+          const paidMonthes = lastPaid.getMonth();
 
           this.paymentTable[index] = [];
           this.paymentTable[index][0] = element.username;

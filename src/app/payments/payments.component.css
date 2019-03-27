@@ -5,6 +5,7 @@
 .payment-status {
   width: 20px;
   height: 20px;
+  cursor: pointer;
 }
 
 .calendar-content {
@@ -22,4 +23,16 @@
   position: relative;
   width: 800px;
   height: 450px;
+}
+
+.list-element {
+  display: block;
+}
+
+.list-element:nth-child(even) {
+  background: #CCC
+}
+
+.list-element:nth-child(odd) {
+  background: #FFF
 }

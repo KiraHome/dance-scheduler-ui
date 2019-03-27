@@ -29,21 +29,13 @@
     </ngb-tab>
     <ngb-tab title="Különóra díjak">
       <ng-template ngbTabContent>
-        <div class="row calendar-content outter-content">
-          <mwl-calendar-month-view
-            class="calendar-content"
-            [locale]="'en'"
-            [weekStartsOn]="1"
-            precision="minutes"
-            [viewDate]="viewDate"
-            [events]="events"
-            [refresh]="refresh"
-            [dayStartHour]="7"
-            [dayEndHour]="22"
-            [hourSegments]="4"
-            (eventTimesChanged)="eventTimesChanged($event)"
-            (eventClicked)="eventClicked($event, content)">
-          </mwl-calendar-month-view>
+        <div class="outter-content">
+          <div class="date-list" *ngFor="let event of events | sort:'title'">
+            Óra: <b>{{ event.title}}</b>, Utoljára fizetve: <b>{{event.lastPaidClass}}</b>
+            <ul>
+              <li class="list-element" *ngFor="let lastPaid of getPaymentList(event.lastPaidClass, event)" (click)="payClass(event, content)">{{lastPaid}}</li>
+            </ul>
+          </div>
         </div>
       </ng-template>
     </ngb-tab>
